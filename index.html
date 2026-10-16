@@ -25,13 +25,11 @@
         .btn-logout { background: transparent; border: 3px solid var(--contorno); border-radius: 50px; padding: 5px 15px; font-weight: 700; color: var(--contorno); cursor: pointer; box-shadow: 0 3px 0 var(--contorno); transition: all 0.1s; font-size: 0.8rem; }
         .btn-logout:active { transform: translateY(3px); box-shadow: 0 0 0 var(--contorno); }
 
-        /* --- Inputs com olhinho --- */
         .input-wrapper { position: relative; width: 100%; margin-bottom: 15px; }
         .auth-input { width: 100%; padding: 12px 45px 12px 15px; border: 3px solid var(--contorno); border-radius: 15px; font-size: 1rem; font-family: 'Fredoka', sans-serif; background: #fff5f8; color: var(--contorno); }
         .auth-input:focus { outline: none; border-color: var(--rosa-escuro); }
         .toggle-password { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 1.3rem; user-select: none; background: none; border: none; padding: 5px; }
 
-        /* --- Telas de Autenticação --- */
         .auth-screen { display: none; max-width: 400px; margin: 40px auto; padding: 25px; background: var(--branco); border: 4px solid var(--contorno); border-radius: 25px; box-shadow: 0 8px 0 var(--contorno); text-align: center; }
         .auth-screen.active { display: block; }
         .auth-screen h2 { font-size: 1.8rem; color: var(--rosa-escuro); text-shadow: 2px 2px 0 var(--contorno); margin-bottom: 20px; }
@@ -40,7 +38,6 @@
         .auth-link { color: var(--rosa-escuro); cursor: pointer; font-weight: 700; text-decoration: underline; margin-top: 10px; display: block; }
         .error-msg { color: #d32f2f; font-weight: 600; margin-top: 10px; font-size: 0.9rem; display: none; }
 
-        /* --- Telas Principais --- */
         .main-screen { display: none; }
         .main-screen.active { display: block; }
 
@@ -85,12 +82,18 @@
         .btn-settings-save { width: 100%; background: var(--rosa-escuro); color: var(--branco); border: 3px solid var(--contorno); border-radius: 50px; padding: 10px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 0 var(--contorno); margin-top: 15px; transition: all 0.1s; }
         .btn-settings-save:active { transform: translateY(4px); box-shadow: 0 0 0 var(--contorno); }
 
-        /* --- Opção Expansível (Perfil) --- */
+        /* --- Opção Expansível --- */
         .expandable-item { background: var(--rosa-claro); border: 3px solid var(--contorno); border-radius: 15px; margin-bottom: 10px; overflow: hidden; }
         .expandable-header { padding: 15px; cursor: pointer; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
         .expandable-header:hover { background: var(--rosa-bebe); }
         .expandable-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; padding: 0 15px; }
-        .expandable-content.open { max-height: 300px; padding: 15px; }
+        .expandable-content.open { max-height: 400px; padding: 15px; }
+
+        /* Botões Sim/Não */
+        .btn-sim-nao { flex: 1; border: 3px solid var(--contorno); border-radius: 50px; padding: 10px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 0 var(--contorno); transition: all 0.1s; font-family: 'Fredoka', sans-serif; font-size: 1rem; }
+        .btn-sim-nao:active { transform: translateY(4px); box-shadow: 0 0 0 var(--contorno); }
+        .btn-sim { background: linear-gradient(135deg, #FF6B6B, #FF1493); color: white; }
+        .btn-nao { background: linear-gradient(135deg, #D3D3D3, #A9A9A9); color: var(--contorno); }
 
         .notif-item { padding: 12px; border-bottom: 2px solid var(--rosa-bebe); display: flex; gap: 10px; align-items: center; }
         .notif-icon { font-size: 1.5rem; }
@@ -104,16 +107,73 @@
         .nav-badge { position: absolute; top: -5px; right: -10px; background: #FF0000; color: white; font-size: 0.6rem; padding: 2px 5px; border-radius: 50%; border: 2px solid var(--branco); display: none; }
         .nav-badge.show { display: block; }
 
-        /* Configurações Push */
         .notif-btn { display: block; margin: 15px auto; background: var(--dourado); border: 3px solid var(--contorno); border-radius: 50px; padding: 8px 20px; font-weight: 700; cursor: pointer; color: var(--contorno); box-shadow: 0 4px 0 var(--contorno); }
         .notif-btn:active { transform: translateY(4px); box-shadow: 0 0 0 var(--contorno); }
+
+        /* ============ MODAL PERSONALIZADO (SUBSTITUI O CONFIRM DO NAVEGADOR) ============ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(74, 0, 36, 0.7);
+            z-index: 500;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.2s ease-out;
+        }
+        .modal-overlay.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .modal-content {
+            background: var(--branco);
+            border: 5px solid var(--contorno);
+            border-radius: 25px;
+            max-width: 380px;
+            width: 100%;
+            padding: 25px;
+            box-shadow: 0 10px 0 var(--contorno);
+            text-align: center;
+            animation: bounceIn 0.3s ease-out;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.6); opacity: 0; }
+            60% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        .modal-logo {
+            max-height: 60px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 3px 0 rgba(74, 0, 36, 0.4));
+        }
+
+        .modal-content h3 {
+            font-size: 1.5rem;
+            color: var(--rosa-escuro);
+            text-shadow: 2px 2px 0 var(--contorno);
+            margin-bottom: 15px;
+        }
+
+        .modal-content p {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--contorno);
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+        }
     </style>
 </head>
 <body>
 
     <!-- ================= TELAS DE AUTENTICAÇÃO ================= -->
     <div id="authContainer" class="main-screen active">
-        <!-- LOGIN -->
         <div id="loginScreen" class="auth-screen active">
             <img src="rhavila.png" alt="Logo" class="logo-img" style="max-height: 100px; margin-bottom: 15px;" onerror="this.style.display='none'; document.getElementById('auth-logo-fallback').style.display='block';">
             <div id="auth-logo-fallback" class="logo-fallback" style="margin-bottom: 15px;">RHAVILA</div>
@@ -131,7 +191,6 @@
             <a class="auth-link" onclick="mostrarTela('resetScreen')">Esqueceu a senha?</a>
         </div>
 
-        <!-- CRIAR CONTA -->
         <div id="signupScreen" class="auth-screen">
             <h2>Criar Conta</h2>
             <div class="input-wrapper">
@@ -153,7 +212,6 @@
             <a class="auth-link" onclick="mostrarTela('loginScreen')">Já tem conta? Fazer login</a>
         </div>
 
-        <!-- RECUPERAR SENHA -->
         <div id="resetScreen" class="auth-screen">
             <h2>Recuperar Senha</h2>
             <p style="margin-bottom: 15px; font-size: 0.9rem;">Enviaremos um link de redefinição para seu e-mail.</p>
@@ -175,7 +233,7 @@
             </div>
             <div class="header-user">
                 <img id="headerAvatar" class="user-avatar" src="https://via.placeholder.com/45/FFB6C1/4A0024?text=%20" alt="Avatar">
-                <button class="btn-logout" onclick="fazerLogout()">Sair</button>
+                <button class="btn-logout" onclick="pedirSaida()">Sair</button>
             </div>
         </header>
 
@@ -208,11 +266,10 @@
                 <button class="btn-settings-save" onclick="document.getElementById('avatarInput').click()" style="margin-top: 10px;">📷 Alterar Foto de Perfil</button>
             </div>
 
-            <!-- Menu de Opções da Conta -->
             <div class="settings-section">
                 <h3>Opções da Conta</h3>
                 
-                <!-- Alterar Senha (Escondido) -->
+                <!-- Alterar Senha -->
                 <div class="expandable-item">
                     <div class="expandable-header" onclick="toggleExpandable(this)">
                         <span>🔒 Alterar Senha</span>
@@ -231,11 +288,18 @@
                     </div>
                 </div>
 
-                <!-- Sair da Conta -->
+                <!-- Sair da Conta (Retrátil com Sim/Não) -->
                 <div class="expandable-item">
-                    <div class="expandable-header" onclick="fazerLogout()">
+                    <div class="expandable-header" onclick="toggleExpandable(this)">
                         <span>🚪 Sair da Conta</span>
-                        <span class="arrow">▶</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p style="text-align: center; font-weight: 600; margin-bottom: 15px;">Deseja mesmo sair da sua conta?</p>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn-sim-nao btn-sim" onclick="pedirSaida()">✅ Sim, sair</button>
+                            <button class="btn-sim-nao btn-nao" onclick="cancelarSaida(this)">❌ Não, ficar</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -295,7 +359,20 @@
         </div>
     </div>
 
-    <!-- MÓDULOS DO FIREBASE (SDK v10) -->
+    <!-- ============ MODAL DE CONFIRMAÇÃO PERSONALIZADO ============ -->
+    <div id="modalConfirm" class="modal-overlay" onclick="fecharModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <img src="rhavila.png" alt="Rhavila" class="modal-logo" onerror="this.style.display='none';">
+            <h3 id="modalTitulo">Tem certeza?</h3>
+            <p id="modalMensagem">Essa ação não pode ser desfeita.</p>
+            <div class="modal-buttons">
+                <button class="btn-sim-nao btn-nao" onclick="modalResposta(false)">Cancelar</button>
+                <button class="btn-sim-nao btn-sim" onclick="modalResposta(true)">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MÓDULOS DO FIREBASE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, updatePassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -320,20 +397,43 @@
         let usuarioAtual = null;
         let todasAsMidias = [];
         let configuracoesUsuario = { likes: true, comments: true, push: true, memoria: true };
+        let modalCallback = null; // Guarda a função de resposta do modal
 
-        // --- TOGGLE DE SENHA (Olhinho) ---
-        window.toggleSenha = (inputId, btn) => {
-            const input = document.getElementById(inputId);
-            if (input.type === 'password') {
-                input.type = 'text';
-                btn.textContent = '🙈';
-            } else {
-                input.type = 'password';
-                btn.textContent = '👁️';
+        // ============ MODAL PERSONALIZADO ============
+        window.mostrarModal = (titulo, mensagem, callback) => {
+            document.getElementById('modalTitulo').textContent = titulo;
+            document.getElementById('modalMensagem').textContent = mensagem;
+            modalCallback = callback;
+            document.getElementById('modalConfirm').classList.add('active');
+        };
+
+        window.modalResposta = (resposta) => {
+            document.getElementById('modalConfirm').classList.remove('active');
+            if (modalCallback) {
+                modalCallback(resposta);
+                modalCallback = null;
             }
         };
 
-        // --- EXPANDIR MENU (Perfil) ---
+        window.fecharModal = (event) => {
+            // Fecha se clicar no fundo (equivalente a cancelar)
+            if (event.target.id === 'modalConfirm') {
+                document.getElementById('modalConfirm').classList.remove('active');
+                if (modalCallback) {
+                    modalCallback(false);
+                    modalCallback = null;
+                }
+            }
+        };
+
+        // ============ TOGGLE DE SENHA ============
+        window.toggleSenha = (inputId, btn) => {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') { input.type = 'text'; btn.textContent = '🙈'; }
+            else { input.type = 'password'; btn.textContent = '👁️'; }
+        };
+
+        // ============ EXPANDIR MENU ============
         window.toggleExpandable = (header) => {
             const content = header.nextElementSibling;
             const arrow = header.querySelector('.arrow');
@@ -346,7 +446,32 @@
             }
         };
 
-        // --- AUTENTICAÇÃO ---
+        // ============ SAIR DA CONTA ============
+        window.pedirSaida = () => {
+            mostrarModal(
+                "Sair da conta?",
+                "Tem certeza que deseja sair? Você precisará fazer login novamente.",
+                (confirmado) => { if (confirmado) executarLogout(); }
+            );
+        };
+
+        window.cancelarSaida = (btn) => {
+            // Fecha o menu retrátil
+            const content = btn.closest('.expandable-content');
+            const header = content.previousElementSibling;
+            content.classList.remove('open');
+            header.querySelector('.arrow').textContent = '▼';
+        };
+
+        async function executarLogout() {
+            try {
+                await signOut(auth);
+                todasAsMidias = [];
+                document.getElementById('feed').innerHTML = '';
+            } catch (error) { console.error("Erro ao sair:", error); }
+        }
+
+        // ============ AUTENTICAÇÃO ============
         window.mostrarTela = (telaId) => {
             document.querySelectorAll('.auth-screen').forEach(t => t.classList.remove('active'));
             document.getElementById(telaId).classList.add('active');
@@ -368,13 +493,11 @@
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
                 await updateProfile(user, { displayName: name });
-                
                 await setDoc(doc(db, "users", user.uid), {
                     name: name, email: email, avatarUrl: "",
                     createdAt: serverTimestamp(),
                     config: { likes: true, comments: true, push: true, memoria: true }
                 });
-                
                 document.getElementById('signupName').value = '';
                 document.getElementById('signupEmail').value = '';
                 document.getElementById('signupPassword').value = '';
@@ -397,26 +520,15 @@
             const password = document.getElementById('loginPassword').value;
             const errorDiv = document.getElementById('loginError');
             errorDiv.style.display = 'none';
-
             if (!email || !password) { errorDiv.textContent = 'Preencha todos os campos.'; errorDiv.style.display = 'block'; return; }
-
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-            } catch (error) {
-                console.error("Erro login:", error);
+            try { await signInWithEmailAndPassword(auth, email, password); }
+            catch (error) {
                 let msg = 'E-mail ou senha incorretos.';
                 if (error.code === 'auth/user-not-found') msg = 'Usuário não encontrado.';
                 if (error.code === 'auth/wrong-password') msg = 'Senha incorreta.';
                 if (error.code === 'auth/too-many-requests') msg = 'Muitas tentativas. Tente mais tarde.';
                 errorDiv.textContent = msg;
                 errorDiv.style.display = 'block';
-            }
-        };
-
-        window.fazerLogout = async () => {
-            if (confirm("Deseja realmente sair?")) {
-                try { await signOut(auth); todasAsMidias = []; document.getElementById('feed').innerHTML = ''; }
-                catch (error) { console.error("Erro ao sair:", error); }
             }
         };
 
@@ -429,7 +541,6 @@
                 msgDiv.textContent = 'Link enviado! Verifique sua caixa de entrada.';
                 msgDiv.style.color = 'green'; msgDiv.style.display = 'block';
             } catch (error) {
-                console.error(error);
                 msgDiv.textContent = 'Erro ao enviar. Verifique o e-mail digitado.';
                 msgDiv.style.color = '#d32f2f'; msgDiv.style.display = 'block';
             }
@@ -446,13 +557,12 @@
                 document.getElementById('newPassword').value = '';
                 document.getElementById('newPasswordConfirm').value = '';
             } catch (error) {
-                console.error("Erro:", error);
                 if (error.code === 'auth/requires-recent-login') alert('Por segurança, saia e faça login novamente antes de alterar a senha.');
                 else alert('Erro ao alterar senha. Tente novamente.');
             }
         };
 
-        // --- OBSERVADOR DE AUTENTICAÇÃO ---
+        // ============ ESTADO DE AUTENTICAÇÃO ============
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 usuarioAtual = user;
@@ -490,8 +600,7 @@
             if (!file || !usuarioAtual) return;
             const storageRef = ref(storage, `avatares/${usuarioAtual.uid}/avatar.jpg`);
             const uploadTask = uploadBytesResumable(storageRef, file);
-            uploadTask.on('state_changed', 
-                null, 
+            uploadTask.on('state_changed', null, 
                 (error) => { console.error(error); alert("Erro ao enviar imagem. Verifique as regras do Storage."); }, 
                 async () => {
                     const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
@@ -504,8 +613,7 @@
         });
 
         async function carregarConfiguracoes(uid) {
-            const docRef = doc(db, "users", uid);
-            const docSnap = await getDoc(docRef);
+            const docSnap = await getDoc(doc(db, "users", uid));
             if (docSnap.exists() && docSnap.data().config) {
                 configuracoesUsuario = docSnap.data().config;
                 document.getElementById('configLikes').checked = configuracoesUsuario.likes;
@@ -614,7 +722,6 @@
             const chaveExpiracao = `memoriaExpiracao_${uidAtual}`;
             const idSalvo = localStorage.getItem(chaveMemoria);
             const expiracaoSalva = localStorage.getItem(chaveExpiracao);
-            
             if (!idSalvo || !expiracaoSalva || agora > parseInt(expiracaoSalva)) {
                 const disponiveis = todasAsMidias.filter(m => m.id !== idSalvo);
                 const listaParaEscolher = disponiveis.length > 0 ? disponiveis : todasAsMidias;
@@ -646,21 +753,19 @@
             loading.style.display = 'block';
             let sucessos = 0;
             let erros = [];
-
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
                 loading.textContent = `Preparando ${i + 1} de ${files.length}... ⏳`;
                 try {
                     const storageRef = ref(storage, `rhavila_midias/${usuarioAtual.uid}/${Date.now()}_${file.name}`);
                     const uploadTask = uploadBytesResumable(storageRef, file);
-                    
                     await new Promise((resolve, reject) => {
                         uploadTask.on('state_changed', 
                             (snapshot) => {
                                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                                 loading.textContent = `Enviando ${i + 1} de ${files.length} (${Math.round(progress)}%)... ⏳`;
                             }, 
-                            (error) => { console.error("Erro upload:", error); reject(error); }, 
+                            (error) => { reject(error); }, 
                             async () => {
                                 try {
                                     const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
@@ -677,20 +782,17 @@
                         );
                     });
                 } catch (error) {
-                    console.error(`Falha ${file.name}:`, error);
                     erros.push(error.code || error.message);
                 }
             }
-
             loading.style.display = 'none';
             loading.textContent = 'Carregando mágica... ✨'; 
             e.target.value = ''; 
-            
             if (sucessos > 0) {
                 alert(`${sucessos} mídia(s) publicada(s)! 🎉`);
                 carregarFeed(); 
             } else {
-                alert("Nenhuma mídia foi importada.\n\nMotivo do erro:\n" + (erros[0] || "Verifique as regras do Storage no Firebase."));
+                alert("Nenhuma mídia foi importada.\n\nMotivo:\n" + (erros[0] || "Verifique as regras do Storage."));
             }
         });
 
@@ -718,7 +820,7 @@
                     const editOptions = isOwner ? `
                         <div class="post-edit-options">
                             <button class="btn-edit" onclick="editarLegenda('${postId}', '${(data.caption || '').replace(/'/g, "\\'")}')">✏️</button>
-                            <button class="btn-delete" onclick="apagarPost('${postId}', '${data.url}')">🗑️</button>
+                            <button class="btn-delete" onclick="pedirApagar('${postId}', '${data.url}')">🗑️</button>
                         </div>` : '';
                     card.innerHTML = `
                         ${mediaHTML}
@@ -746,19 +848,25 @@
         window.editarLegenda = async (postId, legendaAtual) => {
             const nova = prompt("Digite a legenda:", legendaAtual);
             if (nova !== null) {
-                try { await updateDoc(doc(db, "posts", postId), { caption: nova }); alert("Legenda atualizada! ✏️"); carregarFeed(); }
-                catch (error) { console.error(error); alert("Erro ao atualizar."); }
+                try { await updateDoc(doc(db, "posts", postId), { caption: nova }); carregarFeed(); }
+                catch (error) { console.error(error); }
             }
         };
 
-        window.apagarPost = async (postId, urlMidia) => {
-            if (!confirm("Apagar esta mídia? Não será possível recuperar.")) return;
-            try {
-                await deleteDoc(doc(db, "posts", postId));
-                try { await deleteObject(ref(storage, urlMidia)); } catch (err) { console.warn("Arquivo já removido:", err); }
-                alert("Mídia apagada! 🗑️");
-                carregarFeed();
-            } catch (error) { console.error(error); alert("Erro ao apagar."); }
+        // ============ APAGAR POST COM MODAL ============
+        window.pedirApagar = (postId, urlMidia) => {
+            mostrarModal(
+                "Apagar mídia?",
+                "Essa ação não pode ser desfeita. Tem certeza que deseja apagar?",
+                async (confirmado) => {
+                    if (!confirmado) return;
+                    try {
+                        await deleteDoc(doc(db, "posts", postId));
+                        try { await deleteObject(ref(storage, urlMidia)); } catch (err) { console.warn("Arquivo já removido:", err); }
+                        carregarFeed();
+                    } catch (error) { console.error(error); alert("Erro ao apagar."); }
+                }
+            );
         };
 
         window.curtirPost = async (postId, btnElement, autorId) => {
