@@ -6,7 +6,6 @@
     <title>Rhavila - Álbum de Amor</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- TODO O CSS PERMANECE O MESMO --- */
         :root {
             --rosa-claro: #FFD1E3; --rosa-escuro: #FF69B4; --rosa-bebe: #FFB6C1;
             --contorno: #4A0024; --branco: #FFFFFF; --dourado: #FFD700;
@@ -17,7 +16,7 @@
             background-image: radial-gradient(var(--rosa-escuro) 15%, transparent 16%);
             background-size: 30px 30px; color: var(--contorno); padding-bottom: 80px;
         }
-        header { background: var(--branco); border-bottom: 5px solid var(--contorno); padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 0 rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; min-height: 100px; padding: 0 20px; }
+        header { background: var(--branco); border-bottom: 5px solid var(--contorno); padding: 0 20px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 0 rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; min-height: 100px; }
         .header-logo { display: flex; align-items: center; gap: 10px; }
         .logo-img { max-height: 70px; width: auto; object-fit: contain; filter: drop-shadow(0px 4px 0px rgba(74, 0, 36, 0.5)); }
         .logo-fallback { font-size: 1.8rem; font-weight: 700; color: var(--rosa-escuro); text-transform: uppercase; letter-spacing: 2px; -webkit-text-stroke: 1.5px var(--contorno); text-shadow: 2px 2px 0 var(--contorno); display: none; }
@@ -26,12 +25,16 @@
         .btn-logout { background: transparent; border: 3px solid var(--contorno); border-radius: 50px; padding: 5px 15px; font-weight: 700; color: var(--contorno); cursor: pointer; box-shadow: 0 3px 0 var(--contorno); transition: all 0.1s; font-size: 0.8rem; }
         .btn-logout:active { transform: translateY(3px); box-shadow: 0 0 0 var(--contorno); }
 
+        /* --- Inputs com olhinho --- */
+        .input-wrapper { position: relative; width: 100%; margin-bottom: 15px; }
+        .auth-input { width: 100%; padding: 12px 45px 12px 15px; border: 3px solid var(--contorno); border-radius: 15px; font-size: 1rem; font-family: 'Fredoka', sans-serif; background: #fff5f8; color: var(--contorno); }
+        .auth-input:focus { outline: none; border-color: var(--rosa-escuro); }
+        .toggle-password { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 1.3rem; user-select: none; background: none; border: none; padding: 5px; }
+
         /* --- Telas de Autenticação --- */
         .auth-screen { display: none; max-width: 400px; margin: 40px auto; padding: 25px; background: var(--branco); border: 4px solid var(--contorno); border-radius: 25px; box-shadow: 0 8px 0 var(--contorno); text-align: center; }
         .auth-screen.active { display: block; }
         .auth-screen h2 { font-size: 1.8rem; color: var(--rosa-escuro); text-shadow: 2px 2px 0 var(--contorno); margin-bottom: 20px; }
-        .auth-input { width: 100%; padding: 12px 15px; margin-bottom: 15px; border: 3px solid var(--contorno); border-radius: 15px; font-size: 1rem; font-family: 'Fredoka', sans-serif; background: #fff5f8; color: var(--contorno); }
-        .auth-input:focus { outline: none; border-color: var(--rosa-escuro); }
         .btn-auth { width: 100%; background: linear-gradient(135deg, var(--rosa-escuro), #FF1493); color: var(--branco); border: 4px solid var(--contorno); border-radius: 50px; padding: 12px; font-size: 1.1rem; font-weight: 700; cursor: pointer; box-shadow: 0 5px 0 var(--contorno); transition: all 0.1s; margin-bottom: 10px; }
         .btn-auth:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--contorno); }
         .auth-link { color: var(--rosa-escuro); cursor: pointer; font-weight: 700; text-decoration: underline; margin-top: 10px; display: block; }
@@ -41,14 +44,12 @@
         .main-screen { display: none; }
         .main-screen.active { display: block; }
 
-        /* --- Seção de Lembranças --- */
         .memoria-section { max-width: 500px; margin: 20px auto; padding: 0 15px; text-align: center; }
         .memoria-titulo { font-size: 1.5rem; font-weight: 700; color: var(--rosa-escuro); text-shadow: 2px 2px 0 var(--contorno); margin-bottom: 15px; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
         .memoria-card { background: var(--branco); border: 5px solid var(--dourado); border-radius: 25px; overflow: hidden; box-shadow: 0 0 20px var(--dourado), 0 8px 0 var(--contorno); animation: brilho 2s infinite alternate; }
         @keyframes brilho { from { box-shadow: 0 0 10px var(--dourado), 0 8px 0 var(--contorno); } to { box-shadow: 0 0 30px var(--dourado), 0 8px 0 var(--contorno); } }
 
-        /* --- Upload e Feed --- */
         .upload-container { background: var(--branco); border: 4px solid var(--contorno); border-radius: 25px; padding: 20px; margin: 20px auto; max-width: 500px; text-align: center; box-shadow: 0 8px 0 var(--contorno); position: relative; overflow: hidden; z-index: 10; }
         .upload-container input[type="file"] { display: none; }
         .btn-upload { background: linear-gradient(135deg, var(--rosa-escuro), #FF1493); color: var(--branco); border: 4px solid var(--contorno); border-radius: 50px; padding: 12px 30px; font-size: 1.2rem; font-weight: 700; cursor: pointer; box-shadow: 0 5px 0 var(--contorno); transition: all 0.1s; display: inline-flex; align-items: center; gap: 10px; }
@@ -70,7 +71,6 @@
 
         #loading { text-align: center; font-size: 1.5rem; font-weight: 700; color: var(--rosa-escuro); display: none; margin-top: 20px; text-shadow: 2px 2px 0 var(--contorno); }
 
-        /* --- Configurações --- */
         .settings-section { max-width: 500px; margin: 20px auto; padding: 20px; background: var(--branco); border: 4px solid var(--contorno); border-radius: 25px; box-shadow: 0 8px 0 var(--contorno); }
         .settings-section h3 { color: var(--rosa-escuro); text-shadow: 1px 1px 0 var(--contorno); margin-bottom: 15px; text-align: center; }
         .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 2px dashed var(--rosa-bebe); }
@@ -85,24 +85,28 @@
         .btn-settings-save { width: 100%; background: var(--rosa-escuro); color: var(--branco); border: 3px solid var(--contorno); border-radius: 50px; padding: 10px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 0 var(--contorno); margin-top: 15px; transition: all 0.1s; }
         .btn-settings-save:active { transform: translateY(4px); box-shadow: 0 0 0 var(--contorno); }
 
-        /* --- Modal de Notificações --- */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 200; justify-content: center; align-items: center; }
-        .modal-overlay.active { display: flex; }
-        .modal-content { background: var(--branco); border: 4px solid var(--contorno); border-radius: 25px; max-width: 400px; width: 90%; max-height: 80vh; overflow-y: auto; padding: 20px; box-shadow: 0 10px 0 var(--contorno); }
-        .modal-content h3 { text-align: center; margin-bottom: 15px; color: var(--rosa-escuro); }
+        /* --- Opção Expansível (Perfil) --- */
+        .expandable-item { background: var(--rosa-claro); border: 3px solid var(--contorno); border-radius: 15px; margin-bottom: 10px; overflow: hidden; }
+        .expandable-header { padding: 15px; cursor: pointer; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .expandable-header:hover { background: var(--rosa-bebe); }
+        .expandable-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; padding: 0 15px; }
+        .expandable-content.open { max-height: 300px; padding: 15px; }
+
         .notif-item { padding: 12px; border-bottom: 2px solid var(--rosa-bebe); display: flex; gap: 10px; align-items: center; }
         .notif-icon { font-size: 1.5rem; }
         .notif-text { flex: 1; font-weight: 600; font-size: 0.9rem; }
         .notif-time { font-size: 0.75rem; color: #888; }
-        .btn-close-modal { width: 100%; background: var(--rosa-escuro); color: white; border: 3px solid var(--contorno); border-radius: 50px; padding: 10px; font-weight: 700; cursor: pointer; margin-top: 15px; }
 
-        /* --- Navegação Inferior --- */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--branco); border-top: 5px solid var(--contorno); display: flex; justify-content: space-around; padding: 10px 0; z-index: 150; box-shadow: 0 -4px 0 rgba(0,0,0,0.1); }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; background: none; border: none; font-family: 'Fredoka', sans-serif; font-weight: 600; color: var(--contorno); opacity: 0.6; transition: opacity 0.2s; position: relative; }
         .nav-item.active { opacity: 1; color: var(--rosa-escuro); }
         .nav-item svg { width: 24px; height: 24px; fill: currentColor; }
         .nav-badge { position: absolute; top: -5px; right: -10px; background: #FF0000; color: white; font-size: 0.6rem; padding: 2px 5px; border-radius: 50%; border: 2px solid var(--branco); display: none; }
         .nav-badge.show { display: block; }
+
+        /* Configurações Push */
+        .notif-btn { display: block; margin: 15px auto; background: var(--dourado); border: 3px solid var(--contorno); border-radius: 50px; padding: 8px 20px; font-weight: 700; cursor: pointer; color: var(--contorno); box-shadow: 0 4px 0 var(--contorno); }
+        .notif-btn:active { transform: translateY(4px); box-shadow: 0 0 0 var(--contorno); }
     </style>
 </head>
 <body>
@@ -114,8 +118,13 @@
             <img src="rhavila.png" alt="Logo" class="logo-img" style="max-height: 100px; margin-bottom: 15px;" onerror="this.style.display='none'; document.getElementById('auth-logo-fallback').style.display='block';">
             <div id="auth-logo-fallback" class="logo-fallback" style="margin-bottom: 15px;">RHAVILA</div>
             <h2>Bem-vindo de volta!</h2>
-            <input type="email" id="loginEmail" class="auth-input" placeholder="Seu e-mail" autocomplete="email">
-            <input type="password" id="loginPassword" class="auth-input" placeholder="Sua senha" autocomplete="current-password">
+            <div class="input-wrapper">
+                <input type="email" id="loginEmail" class="auth-input" placeholder="Seu e-mail" autocomplete="email">
+            </div>
+            <div class="input-wrapper">
+                <input type="password" id="loginPassword" class="auth-input" placeholder="Sua senha" autocomplete="current-password">
+                <button class="toggle-password" onclick="toggleSenha('loginPassword', this)">👁️</button>
+            </div>
             <div id="loginError" class="error-msg"></div>
             <button class="btn-auth" onclick="fazerLogin()">Entrar</button>
             <a class="auth-link" onclick="mostrarTela('signupScreen')">Não tem conta? Criar agora</a>
@@ -125,9 +134,20 @@
         <!-- CRIAR CONTA -->
         <div id="signupScreen" class="auth-screen">
             <h2>Criar Conta</h2>
-            <input type="text" id="signupName" class="auth-input" placeholder="Seu nome">
-            <input type="email" id="signupEmail" class="auth-input" placeholder="Seu e-mail" autocomplete="email">
-            <input type="password" id="signupPassword" class="auth-input" placeholder="Crie uma senha (mín. 6 caracteres)" autocomplete="new-password">
+            <div class="input-wrapper">
+                <input type="text" id="signupName" class="auth-input" placeholder="Seu nome">
+            </div>
+            <div class="input-wrapper">
+                <input type="email" id="signupEmail" class="auth-input" placeholder="Seu e-mail" autocomplete="email">
+            </div>
+            <div class="input-wrapper">
+                <input type="password" id="signupPassword" class="auth-input" placeholder="Crie uma senha (mín. 6 caracteres)" autocomplete="new-password">
+                <button class="toggle-password" onclick="toggleSenha('signupPassword', this)">👁️</button>
+            </div>
+            <div class="input-wrapper">
+                <input type="password" id="signupConfirmPassword" class="auth-input" placeholder="Confirme a senha" autocomplete="new-password">
+                <button class="toggle-password" onclick="toggleSenha('signupConfirmPassword', this)">👁️</button>
+            </div>
             <div id="signupError" class="error-msg"></div>
             <button class="btn-auth" onclick="criarConta()">Criar Conta</button>
             <a class="auth-link" onclick="mostrarTela('loginScreen')">Já tem conta? Fazer login</a>
@@ -137,7 +157,9 @@
         <div id="resetScreen" class="auth-screen">
             <h2>Recuperar Senha</h2>
             <p style="margin-bottom: 15px; font-size: 0.9rem;">Enviaremos um link de redefinição para seu e-mail.</p>
-            <input type="email" id="resetEmail" class="auth-input" placeholder="Seu e-mail">
+            <div class="input-wrapper">
+                <input type="email" id="resetEmail" class="auth-input" placeholder="Seu e-mail">
+            </div>
             <div id="resetMessage" class="error-msg" style="color: green;"></div>
             <button class="btn-auth" onclick="recuperarSenha()">Enviar Link</button>
             <a class="auth-link" onclick="mostrarTela('loginScreen')">Voltar ao login</a>
@@ -152,14 +174,14 @@
                 <div id="app-logo-fallback" class="logo-fallback">RHAVILA</div>
             </div>
             <div class="header-user">
-                <img id="headerAvatar" class="user-avatar" src="https://via.placeholder.com/45/FFB6C1/4A0024?text=👤" alt="Avatar">
+                <img id="headerAvatar" class="user-avatar" src="https://via.placeholder.com/45/FFB6C1/4A0024?text=%20" alt="Avatar">
                 <button class="btn-logout" onclick="fazerLogout()">Sair</button>
             </div>
         </header>
 
         <!-- ABA: FEED -->
         <div id="aba-feed" class="aba-conteudo" style="display: block;">
-            <button class="notif-btn" id="btnNotif" onclick="ativarNotificacoes()" style="display: block; margin: 15px auto; background: var(--dourado); border: 3px solid var(--contorno); border-radius: 50px; padding: 8px 20px; font-weight: 700; cursor: pointer;">🔔 Ativar Lembretes</button>
+            <button class="notif-btn" id="btnNotif" onclick="ativarNotificacoes()">🔔 Ativar Lembretes</button>
             
             <div class="memoria-section" id="memoriaSection" style="display: none;">
                 <div class="memoria-titulo">✨ Lembrança do Dia ✨</div>
@@ -179,16 +201,43 @@
         <!-- ABA: PERFIL -->
         <div id="aba-perfil" class="aba-conteudo" style="display: none;">
             <div class="settings-section" style="text-align: center;">
-                <img id="profileAvatar" class="user-avatar" style="width: 100px; height: 100px; margin: 0 auto 15px;" src="https://via.placeholder.com/100/FFB6C1/4A0024?text=👤" alt="Avatar">
+                <img id="profileAvatar" class="user-avatar" style="width: 100px; height: 100px; margin: 0 auto 15px;" src="https://via.placeholder.com/100/FFB6C1/4A0024?text=%20" alt="Avatar">
                 <h3 id="profileName">Nome do Usuário</h3>
                 <p id="profileEmail" style="font-size: 0.9rem; color: #666;">email@exemplo.com</p>
                 <input type="file" id="avatarInput" accept="image/*" style="display: none;">
-                <button class="btn-settings-save" onclick="document.getElementById('avatarInput').click()" style="margin-top: 10px;">Alterar Foto de Perfil</button>
+                <button class="btn-settings-save" onclick="document.getElementById('avatarInput').click()" style="margin-top: 10px;">📷 Alterar Foto de Perfil</button>
             </div>
+
+            <!-- Menu de Opções da Conta -->
             <div class="settings-section">
-                <h3>Alterar Senha</h3>
-                <input type="password" id="newPassword" class="auth-input" placeholder="Nova senha">
-                <button class="btn-auth" onclick="alterarSenha()">Atualizar Senha</button>
+                <h3>Opções da Conta</h3>
+                
+                <!-- Alterar Senha (Escondido) -->
+                <div class="expandable-item">
+                    <div class="expandable-header" onclick="toggleExpandable(this)">
+                        <span>🔒 Alterar Senha</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="input-wrapper">
+                            <input type="password" id="newPassword" class="auth-input" placeholder="Nova senha">
+                            <button class="toggle-password" onclick="toggleSenha('newPassword', this)">👁️</button>
+                        </div>
+                        <div class="input-wrapper">
+                            <input type="password" id="newPasswordConfirm" class="auth-input" placeholder="Confirme a nova senha">
+                            <button class="toggle-password" onclick="toggleSenha('newPasswordConfirm', this)">👁️</button>
+                        </div>
+                        <button class="btn-auth" onclick="alterarSenha()">Atualizar Senha</button>
+                    </div>
+                </div>
+
+                <!-- Sair da Conta -->
+                <div class="expandable-item">
+                    <div class="expandable-header" onclick="fazerLogout()">
+                        <span>🚪 Sair da Conta</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -246,15 +295,6 @@
         </div>
     </div>
 
-    <!-- MODAL DE NOTIFICAÇÕES (para uso futuro, se necessário) -->
-    <div id="modalNotificacoes" class="modal-overlay">
-        <div class="modal-content">
-            <h3>Notificações</h3>
-            <div id="modalNotifList"></div>
-            <button class="btn-close-modal" onclick="fecharModal()">Fechar</button>
-        </div>
-    </div>
-
     <!-- MÓDULOS DO FIREBASE (SDK v10) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -262,7 +302,6 @@
         import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, increment, query, where, orderBy, serverTimestamp, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
-        // --- CONFIGURAÇÃO DO FIREBASE ---
         const firebaseConfig = {
             apiKey: "AIzaSyBOA6CtLCnrr1__l_cY770I1akp2LfJXhI",
             authDomain: "rhavilapaixao.firebaseapp.com",
@@ -278,12 +317,36 @@
         const db = getFirestore(app);
         const storage = getStorage(app);
 
-        // --- VARIÁVEIS GLOBAIS ---
         let usuarioAtual = null;
         let todasAsMidias = [];
         let configuracoesUsuario = { likes: true, comments: true, push: true, memoria: true };
 
-        // --- FUNÇÕES DE AUTENTICAÇÃO ---
+        // --- TOGGLE DE SENHA (Olhinho) ---
+        window.toggleSenha = (inputId, btn) => {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                btn.textContent = '👁️';
+            }
+        };
+
+        // --- EXPANDIR MENU (Perfil) ---
+        window.toggleExpandable = (header) => {
+            const content = header.nextElementSibling;
+            const arrow = header.querySelector('.arrow');
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                arrow.textContent = '▼';
+            } else {
+                content.classList.add('open');
+                arrow.textContent = '▲';
+            }
+        };
+
+        // --- AUTENTICAÇÃO ---
         window.mostrarTela = (telaId) => {
             document.querySelectorAll('.auth-screen').forEach(t => t.classList.remove('active'));
             document.getElementById(telaId).classList.add('active');
@@ -293,37 +356,37 @@
             const name = document.getElementById('signupName').value.trim();
             const email = document.getElementById('signupEmail').value.trim();
             const password = document.getElementById('signupPassword').value;
+            const confirm = document.getElementById('signupConfirmPassword').value;
             const errorDiv = document.getElementById('signupError');
             errorDiv.style.display = 'none';
 
-            if (!name || !email || !password) { errorDiv.textContent = 'Preencha todos os campos.'; errorDiv.style.display = 'block'; return; }
+            if (!name || !email || !password || !confirm) { errorDiv.textContent = 'Preencha todos os campos.'; errorDiv.style.display = 'block'; return; }
             if (password.length < 6) { errorDiv.textContent = 'A senha deve ter pelo menos 6 caracteres.'; errorDiv.style.display = 'block'; return; }
+            if (password !== confirm) { errorDiv.textContent = 'As senhas não coincidem. Verifique!'; errorDiv.style.display = 'block'; return; }
 
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
                 await updateProfile(user, { displayName: name });
                 
-                // Cria o documento do usuário no Firestore
                 await setDoc(doc(db, "users", user.uid), {
-                    name: name,
-                    email: email,
-                    avatarUrl: "",
+                    name: name, email: email, avatarUrl: "",
                     createdAt: serverTimestamp(),
                     config: { likes: true, comments: true, push: true, memoria: true }
                 });
                 
-                // Limpa o formulário e volta ao login
                 document.getElementById('signupName').value = '';
                 document.getElementById('signupEmail').value = '';
                 document.getElementById('signupPassword').value = '';
+                document.getElementById('signupConfirmPassword').value = '';
                 alert('Conta criada com sucesso! Agora faça login.');
                 mostrarTela('loginScreen');
             } catch (error) {
-                console.error("Erro ao criar conta:", error);
-                let msg = 'Erro ao criar conta. Tente novamente.';
+                console.error("Erro:", error);
+                let msg = 'Erro ao criar conta.';
                 if (error.code === 'auth/email-already-in-use') msg = 'Este e-mail já está em uso.';
                 if (error.code === 'auth/invalid-email') msg = 'E-mail inválido.';
+                if (error.code === 'auth/weak-password') msg = 'Senha muito fraca. Use pelo menos 6 caracteres.';
                 errorDiv.textContent = msg;
                 errorDiv.style.display = 'block';
             }
@@ -339,9 +402,8 @@
 
             try {
                 await signInWithEmailAndPassword(auth, email, password);
-                // O onAuthStateChanged vai redirecionar
             } catch (error) {
-                console.error("Erro ao fazer login:", error);
+                console.error("Erro login:", error);
                 let msg = 'E-mail ou senha incorretos.';
                 if (error.code === 'auth/user-not-found') msg = 'Usuário não encontrado.';
                 if (error.code === 'auth/wrong-password') msg = 'Senha incorreta.';
@@ -352,59 +414,54 @@
         };
 
         window.fazerLogout = async () => {
-            try {
-                await signOut(auth);
-                todasAsMidias = [];
-                document.getElementById('feed').innerHTML = '';
-            } catch (error) { console.error("Erro ao sair:", error); }
+            if (confirm("Deseja realmente sair?")) {
+                try { await signOut(auth); todasAsMidias = []; document.getElementById('feed').innerHTML = ''; }
+                catch (error) { console.error("Erro ao sair:", error); }
+            }
         };
 
         window.recuperarSenha = async () => {
             const email = document.getElementById('resetEmail').value.trim();
             const msgDiv = document.getElementById('resetMessage');
-            if (!email) { msgDiv.textContent = 'Digite seu e-mail.'; msgDiv.style.display = 'block'; return; }
-            
+            if (!email) { msgDiv.textContent = 'Digite seu e-mail.'; msgDiv.style.color = '#d32f2f'; msgDiv.style.display = 'block'; return; }
             try {
                 await sendPasswordResetEmail(auth, email);
                 msgDiv.textContent = 'Link enviado! Verifique sua caixa de entrada.';
-                msgDiv.style.display = 'block';
+                msgDiv.style.color = 'green'; msgDiv.style.display = 'block';
             } catch (error) {
-                console.error("Erro ao enviar reset:", error);
+                console.error(error);
                 msgDiv.textContent = 'Erro ao enviar. Verifique o e-mail digitado.';
-                msgDiv.style.display = 'block';
+                msgDiv.style.color = '#d32f2f'; msgDiv.style.display = 'block';
             }
         };
 
         window.alterarSenha = async () => {
             const newPass = document.getElementById('newPassword').value;
+            const confirmPass = document.getElementById('newPasswordConfirm').value;
             if (newPass.length < 6) { alert('A nova senha deve ter pelo menos 6 caracteres.'); return; }
+            if (newPass !== confirmPass) { alert('As senhas não coincidem!'); return; }
             try {
                 await updatePassword(usuarioAtual, newPass);
-                alert('Senha alterada com sucesso!');
+                alert('Senha alterada com sucesso! 🎉');
                 document.getElementById('newPassword').value = '';
+                document.getElementById('newPasswordConfirm').value = '';
             } catch (error) {
-                console.error("Erro ao alterar senha:", error);
-                if (error.code === 'auth/requires-recent-login') alert('Por segurança, faça login novamente antes de alterar a senha.');
+                console.error("Erro:", error);
+                if (error.code === 'auth/requires-recent-login') alert('Por segurança, saia e faça login novamente antes de alterar a senha.');
                 else alert('Erro ao alterar senha. Tente novamente.');
             }
         };
 
-        // --- OBSERVADOR DE ESTADO DE AUTENTICAÇÃO ---
+        // --- OBSERVADOR DE AUTENTICAÇÃO ---
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 usuarioAtual = user;
                 document.getElementById('authContainer').classList.remove('active');
                 document.getElementById('appContainer').classList.add('active');
-                
-                // Carrega dados do usuário
                 await carregarPerfil(user);
-                // Carrega configurações salvas
                 await carregarConfiguracoes(user.uid);
-                // Carrega o feed
                 await carregarFeed();
-                // Inicia o sistema de lembranças
                 gerenciarLembranca();
-                // Verifica notificações não lidas
                 verificarNotificacoesNaoLidas(user.uid);
             } else {
                 usuarioAtual = null;
@@ -414,11 +471,9 @@
             }
         });
 
-        // --- PERFIL ---
         async function carregarPerfil(user) {
             document.getElementById('profileName').textContent = user.displayName || 'Usuário';
             document.getElementById('profileEmail').textContent = user.email;
-            
             const userDocRef = doc(db, "users", user.uid);
             const userDoc = await getDoc(userDocRef);
             if (userDoc.exists()) {
@@ -433,23 +488,21 @@
         document.getElementById('avatarInput').addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file || !usuarioAtual) return;
-            
             const storageRef = ref(storage, `avatares/${usuarioAtual.uid}/avatar.jpg`);
             const uploadTask = uploadBytesResumable(storageRef, file);
-            
-            uploadTask.on('state_changed', null, (error) => {
-                console.error("Erro no upload do avatar:", error);
-                alert("Erro ao enviar imagem.");
-            }, async () => {
-                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                await updateDoc(doc(db, "users", usuarioAtual.uid), { avatarUrl: downloadURL });
-                document.getElementById('headerAvatar').src = downloadURL;
-                document.getElementById('profileAvatar').src = downloadURL;
-                alert("Foto de perfil atualizada! 📸");
-            });
+            uploadTask.on('state_changed', 
+                null, 
+                (error) => { console.error(error); alert("Erro ao enviar imagem. Verifique as regras do Storage."); }, 
+                async () => {
+                    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                    await updateDoc(doc(db, "users", usuarioAtual.uid), { avatarUrl: downloadURL });
+                    document.getElementById('headerAvatar').src = downloadURL;
+                    document.getElementById('profileAvatar').src = downloadURL;
+                    alert("Foto de perfil atualizada! 📸");
+                }
+            );
         });
 
-        // --- CONFIGURAÇÕES ---
         async function carregarConfiguracoes(uid) {
             const docRef = doc(db, "users", uid);
             const docSnap = await getDoc(docRef);
@@ -472,70 +525,41 @@
             };
             await updateDoc(doc(db, "users", usuarioAtual.uid), { config: configuracoesUsuario });
             alert("Preferências salvas! ⚙️");
-            
-            // Aplica configuração de lembrança imediatamente
-            if (!configuracoesUsuario.memoria) {
-                document.getElementById('memoriaSection').style.display = 'none';
-            } else {
-                gerenciarLembranca();
-            }
+            if (!configuracoesUsuario.memoria) document.getElementById('memoriaSection').style.display = 'none';
+            else gerenciarLembranca();
         };
 
-        // --- NAVEGAÇÃO ENTRE ABAS ---
         window.mudarAba = (aba) => {
             document.querySelectorAll('.aba-conteudo').forEach(el => el.style.display = 'none');
             document.getElementById(`aba-${aba}`).style.display = 'block';
-            
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             document.querySelector(`.nav-item[data-aba="${aba}"]`).classList.add('active');
-            
-            if (aba === 'notificacoes') {
-                carregarNotificacoes();
-            }
-            if (aba === 'perfil') {
-                carregarPerfil(usuarioAtual);
-            }
+            if (aba === 'notificacoes') carregarNotificacoes();
+            if (aba === 'perfil') carregarPerfil(usuarioAtual);
         };
 
-        // --- NOTIFICAÇÕES (Firestore) ---
         async function verificarNotificacoesNaoLidas(uid) {
             const q = query(collection(db, "users", uid, "notifications"), where("read", "==", false));
             const snapshot = await getDocs(q);
             const badge = document.getElementById('badgeNotif');
-            if (snapshot.size > 0) {
-                badge.textContent = snapshot.size;
-                badge.classList.add('show');
-            } else {
-                badge.classList.remove('show');
-            }
+            if (snapshot.size > 0) { badge.textContent = snapshot.size; badge.classList.add('show'); }
+            else { badge.classList.remove('show'); }
         }
 
         async function carregarNotificacoes() {
             const lista = document.getElementById('listaNotificacoes');
             lista.innerHTML = '<p style="text-align:center;">Carregando...</p>';
-            
             const q = query(collection(db, "users", usuarioAtual.uid, "notifications"), orderBy("createdAt", "desc"));
             const snapshot = await getDocs(q);
-            
             lista.innerHTML = '';
-            if (snapshot.empty) {
-                lista.innerHTML = '<p style="text-align:center; color:#888;">Nenhuma notificação ainda.</p>';
-                return;
-            }
-            
+            if (snapshot.empty) { lista.innerHTML = '<p style="text-align:center; color:#888;">Nenhuma notificação ainda.</p>'; return; }
             snapshot.forEach(docSnap => {
                 const notif = docSnap.data();
                 const div = document.createElement('div');
                 div.className = 'notif-item';
-                div.innerHTML = `
-                    <div class="notif-icon">${notif.icon || '❤️'}</div>
-                    <div class="notif-text">${notif.text}</div>
-                    <div class="notif-time">${formatarTempo(notif.createdAt)}</div>
-                `;
+                div.innerHTML = `<div class="notif-icon">${notif.icon || '❤️'}</div><div class="notif-text">${notif.text}</div><div class="notif-time">${formatarTempo(notif.createdAt)}</div>`;
                 lista.appendChild(div);
             });
-            
-            // Marca todas como lidas
             snapshot.forEach(async (docSnap) => {
                 await updateDoc(doc(db, "users", usuarioAtual.uid, "notifications", docSnap.id), { read: true });
             });
@@ -545,9 +569,7 @@
         function formatarTempo(timestamp) {
             if (!timestamp) return 'Agora';
             const data = timestamp.toDate();
-            const agora = new Date();
-            const diffMs = agora - data;
-            const diffMin = Math.floor(diffMs / 60000);
+            const diffMin = Math.floor((new Date() - data) / 60000);
             if (diffMin < 1) return 'Agora';
             if (diffMin < 60) return `${diffMin} min`;
             const diffHoras = Math.floor(diffMin / 60);
@@ -555,15 +577,14 @@
             return `${Math.floor(diffHoras / 24)}d`;
         }
 
-        // --- SISTEMA DE NOTIFICAÇÕES PUSH (LOCAL) ---
         window.ativarNotificacoes = () => {
-            if (!("Notification" in window)) { alert("Este navegador não suporta notificações."); return; }
+            if (!("Notification" in window)) { alert("Navegador não suporta notificações."); return; }
             Notification.requestPermission().then(permission => {
                 if (permission === "granted") {
-                    alert("Lembretes de amor ativados! 💖");
+                    alert("Lembretes ativados! 💖");
                     document.getElementById('btnNotif').style.display = 'none';
                     iniciarNotificacoesPush();
-                } else { alert("Permita as notificações para receber os lembretes."); }
+                } else { alert("Permita as notificações."); }
             });
         };
 
@@ -571,7 +592,7 @@
             const mensagens = [
                 "Bom dia! A Rhavila te manda um beijo! 💖",
                 "Lembra desse momento lindo? Que saudade! ✨",
-                "Você é a pessoa mais forte e incrível! A Rhavila te ama! 👶💕",
+                "Você é incrível! A Rhavila te ama! 👶💕",
                 "Sorria! A Rhavila está pensando em você agora. 🌸",
                 "Um dia abençoado para você! 🌟",
                 "Cada momento com você é mágico! 📸"
@@ -584,20 +605,15 @@
             }, 2 * 60 * 60 * 1000);
         }
 
-        // --- SISTEMA DE LEMBRANÇAS (24 HORAS) ---
         function gerenciarLembranca() {
             if (!configuracoesUsuario.memoria) { document.getElementById('memoriaSection').style.display = 'none'; return; }
             if (todasAsMidias.length === 0) return;
-            
             const agora = Date.now();
-            const expiracao = localStorage.getItem('memoriaExpiracao');
-            const idAtual = localStorage.getItem('memoriaId');
             const uidAtual = usuarioAtual ? usuarioAtual.uid : '';
             const chaveMemoria = `memoriaId_${uidAtual}`;
             const chaveExpiracao = `memoriaExpiracao_${uidAtual}`;
-            
-            const expiracaoSalva = localStorage.getItem(chaveExpiracao);
             const idSalvo = localStorage.getItem(chaveMemoria);
+            const expiracaoSalva = localStorage.getItem(chaveExpiracao);
             
             if (!idSalvo || !expiracaoSalva || agora > parseInt(expiracaoSalva)) {
                 const disponiveis = todasAsMidias.filter(m => m.id !== idSalvo);
@@ -623,19 +639,17 @@
             card.innerHTML = mediaHTML;
         }
 
-        // --- UPLOAD MÚLTIPLO ---
         document.getElementById('fileInput').addEventListener('change', async (e) => {
             const files = e.target.files;
             if (!files || files.length === 0 || !usuarioAtual) return;
-
             const loading = document.getElementById('loading');
             loading.style.display = 'block';
             let sucessos = 0;
+            let erros = [];
 
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
                 loading.textContent = `Preparando ${i + 1} de ${files.length}... ⏳`;
-                
                 try {
                     const storageRef = ref(storage, `rhavila_midias/${usuarioAtual.uid}/${Date.now()}_${file.name}`);
                     const uploadTask = uploadBytesResumable(storageRef, file);
@@ -646,18 +660,14 @@
                                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                                 loading.textContent = `Enviando ${i + 1} de ${files.length} (${Math.round(progress)}%)... ⏳`;
                             }, 
-                            (error) => { console.error("Erro no upload:", error); reject(error); }, 
+                            (error) => { console.error("Erro upload:", error); reject(error); }, 
                             async () => {
                                 try {
                                     const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
                                     const mediaType = file.type.startsWith('video') ? 'video' : 'image';
                                     await addDoc(collection(db, "posts"), {
-                                        url: downloadURL,
-                                        type: mediaType,
-                                        caption: "",
-                                        likes: 0,
-                                        authorId: usuarioAtual.uid,
-                                        authorName: usuarioAtual.displayName || "Usuário",
+                                        url: downloadURL, type: mediaType, caption: "", likes: 0,
+                                        authorId: usuarioAtual.uid, authorName: usuarioAtual.displayName || "Usuário",
                                         createdAt: serverTimestamp()
                                     });
                                     sucessos++;
@@ -667,7 +677,8 @@
                         );
                     });
                 } catch (error) {
-                    console.error(`Falha ao enviar ${file.name}: `, error);
+                    console.error(`Falha ${file.name}:`, error);
+                    erros.push(error.code || error.message);
                 }
             }
 
@@ -679,11 +690,10 @@
                 alert(`${sucessos} mídia(s) publicada(s)! 🎉`);
                 carregarFeed(); 
             } else {
-                alert("Nenhuma mídia foi importada. Verifique sua conexão.");
+                alert("Nenhuma mídia foi importada.\n\nMotivo do erro:\n" + (erros[0] || "Verifique as regras do Storage no Firebase."));
             }
         });
 
-        // --- CARREGAR FEED ---
         async function carregarFeed() {
             const feed = document.getElementById('feed');
             const loading = document.getElementById('loading');
@@ -691,33 +701,25 @@
             loading.textContent = 'Carregando mágica... ✨';
             feed.innerHTML = '';
             todasAsMidias = [];
-            
             try {
                 const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
                 const querySnapshot = await getDocs(q);
-
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
                     const postId = doc.id;
                     todasAsMidias.push({ id: postId, ...data });
-
                     const card = document.createElement('div');
                     card.className = 'post-card';
                     card.id = `post-${postId}`;
-
                     let mediaHTML = data.type === 'video' 
                         ? `<video src="${data.url}" class="post-media" controls playsinline></video>`
-                        : `<img src="${data.url}" class="post-media" alt="Mídia Rhavila" loading="lazy">`;
-
-                    // Mostra opções de editar/excluir apenas se for o dono do post
+                        : `<img src="${data.url}" class="post-media" alt="Mídia" loading="lazy">`;
                     const isOwner = usuarioAtual && usuarioAtual.uid === data.authorId;
                     const editOptions = isOwner ? `
                         <div class="post-edit-options">
                             <button class="btn-edit" onclick="editarLegenda('${postId}', '${(data.caption || '').replace(/'/g, "\\'")}')">✏️</button>
                             <button class="btn-delete" onclick="apagarPost('${postId}', '${data.url}')">🗑️</button>
-                        </div>
-                    ` : '';
-
+                        </div>` : '';
                     card.innerHTML = `
                         ${mediaHTML}
                         <div class="post-info">
@@ -734,85 +736,54 @@
                                 <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
                                 Compartilhar
                             </button>
-                        </div>
-                    `;
+                        </div>`;
                     feed.appendChild(card);
                 });
-            } catch (error) {
-                console.error("Erro ao carregar feed: ", error);
-            } finally {
-                loading.style.display = 'none';
-            }
+            } catch (error) { console.error("Erro feed:", error); }
+            finally { loading.style.display = 'none'; }
         }
 
-        // --- EDITAR LEGENDA ---
         window.editarLegenda = async (postId, legendaAtual) => {
             const nova = prompt("Digite a legenda:", legendaAtual);
             if (nova !== null) {
-                try {
-                    await updateDoc(doc(db, "posts", postId), { caption: nova });
-                    alert("Legenda atualizada! ✏️");
-                    carregarFeed();
-                } catch (error) { console.error("Erro ao editar legenda:", error); alert("Erro ao atualizar."); }
+                try { await updateDoc(doc(db, "posts", postId), { caption: nova }); alert("Legenda atualizada! ✏️"); carregarFeed(); }
+                catch (error) { console.error(error); alert("Erro ao atualizar."); }
             }
         };
 
-        // --- APAGAR POST ---
         window.apagarPost = async (postId, urlMidia) => {
-            if (!confirm("Tem certeza que deseja apagar esta mídia? Não será possível recuperar.")) return;
+            if (!confirm("Apagar esta mídia? Não será possível recuperar.")) return;
             try {
-                // 1. Apaga o documento do Firestore
                 await deleteDoc(doc(db, "posts", postId));
-                
-                // 2. Tenta apagar o arquivo do Storage
-                try {
-                    const arquivoRef = ref(storage, urlMidia);
-                    await deleteObject(arquivoRef);
-                } catch (err) { console.warn("Arquivo já removido ou inacessível:", err); }
-                
+                try { await deleteObject(ref(storage, urlMidia)); } catch (err) { console.warn("Arquivo já removido:", err); }
                 alert("Mídia apagada! 🗑️");
                 carregarFeed();
-            } catch (error) { console.error("Erro ao apagar post:", error); alert("Erro ao apagar."); }
+            } catch (error) { console.error(error); alert("Erro ao apagar."); }
         };
 
-        // --- CURTIR POST + NOTIFICAÇÃO ---
         window.curtirPost = async (postId, btnElement, autorId) => {
             if (!usuarioAtual) return;
-            const postRef = doc(db, "posts", postId);
             try {
-                await updateDoc(postRef, { likes: increment(1) });
+                await updateDoc(doc(db, "posts", postId), { likes: increment(1) });
                 const countSpan = btnElement.querySelector('.like-count');
                 countSpan.textContent = parseInt(countSpan.textContent) + 1;
                 btnElement.classList.add('liked');
                 btnElement.disabled = true;
-
-                // Cria notificação para o autor (se não for o próprio usuário)
                 if (autorId && autorId !== usuarioAtual.uid && configuracoesUsuario.likes) {
                     await addDoc(collection(db, "users", autorId, "notifications"), {
                         text: `${usuarioAtual.displayName || 'Alguém'} curtiu sua mídia! ❤️`,
-                        icon: "❤️",
-                        read: false,
-                        createdAt: serverTimestamp()
+                        icon: "❤️", read: false, createdAt: serverTimestamp()
                     });
                 }
-            } catch (error) { console.error("Erro ao curtir: ", error); }
+            } catch (error) { console.error("Erro ao curtir:", error); }
         };
 
-        // --- COMPARTILHAR ---
         window.compartilhar = async (url, type) => {
             if (navigator.share) {
-                try { 
-                    await navigator.share({ title: 'Álbum Rhavila', text: 'Olha que legal!', url: url }); 
-                    // Cria notificação de compartilhamento (opcional)
-                } catch (error) { console.log('Cancelado', error); }
-            } else { 
-                navigator.clipboard.writeText(url); 
-                alert("Link copiado! 📋"); 
-            }
+                try { await navigator.share({ title: 'Álbum Rhavila', text: 'Olha que legal!', url: url }); } 
+                catch (error) { console.log('Cancelado'); }
+            } else { navigator.clipboard.writeText(url); alert("Link copiado! 📋"); }
         };
-
-        // --- INICIALIZAÇÃO ---
-        // O onAuthStateChanged cuida de carregar tudo quando o usuário loga.
     </script>
 </body>
 </html>
