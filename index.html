@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rhavila - Meu Álbum</title>
+    <!-- Fonte estilo cartum / Powerpuff Girls -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rosa-claro: #FFD1E3;
+            --rosa-escuro: #FF69B4;
+            --rosa-bebe: #FFB6C1;
+            --contorno: #4A0024; /* Marrom escuro/vinho da logo */
+            --branco: #FFFFFF;
+            --azul-superpoderosa: #00BFFF;
+            --verde-superpoderosa: #32CD32;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        body {
+            background-color: var(--rosa-claro);
+            /* Fundo de bolinhas estilo Powerpuff Girls */
+            background-image: radial-gradient(var(--rosa-escuro) 15%, transparent 16%);
+            background-size: 30px 30px;
+            color: var(--contorno);
+            padding-bottom: 80px;
+        }
+
+        /* Cabeçalho com a Logo */
+        header {
+            background: var(--branco);
+            border-bottom: 5px solid var(--contorno);
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+        }
+
+        .logo-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--rosa-escuro);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            -webkit-text-stroke: 2px var(--contorno);
+            text-shadow: 3px 3px 0 var(--contorno);
+            margin: 0;
+        }
+
+        /* Área de Upload */
+        .upload-container {
+            background: var(--branco);
+            border: 4px solid var(--contorno);
+            border-radius: 25px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 8px 0 var(--contorno);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-container::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 100px;
+            height: 100px;
+            background: var(--rosa-bebe);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .upload-container input[type="file"] {
+            display: none;
+        }
+
+        .btn-upload {
+            background: linear-gradient(135deg, var(--rosa-escuro), #FF1493);
+            color: var(--branco);
+            border: 4px solid var(--contorno);
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 5px 0 var(--contorno);
+            transition: all 0.1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-upload:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 var(--contorno);
+        }
+
+        /* Feed */
+        .feed {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .post-card {
+            background: var(--branco);
+            border: 4px solid var(--contorno);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 8px 0 var(--contorno);
+            animation: popIn 0.3s ease-out;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .post-media {
+            width: 100%;
+            max-height: 500px;
+            object-fit: cover;
+            border-bottom: 4px solid var(--contorno);
+            display: block;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            background: var(--rosa-bebe);
+            border-bottom: 4px solid var(--contorno);
+        }
+
+        .btn-action {
+            background: var(--branco);
+            border: 3px solid var(--contorno);
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--contorno);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+            box-shadow: 0 3px 0 var(--contorno);
+        }
+
+        .btn-action:hover {
+            background: var(--rosa-claro);
+        }
+
+        .btn-action:active {
+            transform: translateY(3px);
+            box-shadow: 0 0 0 var(--contorno);
+        }
+
+        .btn-action.liked {
+            background: var(--rosa-escuro);
+            color: var(--branco);
+        }
+
+        .btn-action svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .post-info {
+            padding: 15px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        /* Loading */
+        #loading {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--rosa-escuro);
+            display: none;
+            margin-top: 20px;
+            text-shadow: 2px 2px 0 var(--contorno);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 class="logo-text">RHAVILA</h1>
+    </header>
+
+    <div class="upload-container">
+        <input type="file" id="fileInput" accept="image/*, video/*">
+        <button class="btn-upload" onclick="document.getElementById('fileInput').click()">
+            📸 Importar Mídia
+        </button>
+        <p style="margin-top: 10px; font-weight: 600; color: var(--contorno);">Adicione fotos e vídeos ao seu álbum</p>
+    </div>
+
+    <div id="loading">Carregando mágica... ✨</div>
+
+    <div class="feed" id="feed">
+        <!-- Os posts aparecerão aqui -->
+    </div>
+
+    <!-- Módulos do Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, increment, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+
+        // Configuração do Firebase fornecida por você
+        const firebaseConfig = {
+            apiKey: "AIzaSyBOA6CtLCnrr1__l_cY770I1akp2LfJXhI",
+            authDomain: "rhavilapaixao.firebaseapp.com",
+            projectId: "rhavilapaixao",
+            storageBucket: "rhavilapaixao.firebasestorage.app",
+            messagingSenderId: "38751916425",
+            appId: "1:38751916425:web:8e00f38eb71ee087015158",
+            measurementId: "G-8CT1D74HKR"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        const fileInput = document.getElementById('fileInput');
+        const feed = document.getElementById('feed');
+        const loading = document.getElementById('loading');
+
+        // Função para Upload
+        fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            loading.style.display = 'block';
+            
+            try {
+                // 1. Upload para o Storage
+                const storageRef = ref(storage, `rhavila_midias/${Date.now()}_${file.name}`);
+                const snapshot = await uploadBytes(storageRef, file);
+                const downloadURL = await getDownloadURL(snapshot.ref);
+
+                // 2. Salvar no Firestore
+                const mediaType = file.type.startsWith('video') ? 'video' : 'image';
+                await addDoc(collection(db, "posts"), {
+                    url: downloadURL,
+                    type: mediaType,
+                    likes: 0,
+                    createdAt: serverTimestamp()
+                });
+
+                // 3. Recarregar o feed
+                carregarFeed();
+                alert("Mídia publicada com sucesso! 🎉");
+            } catch (error) {
+                console.error("Erro no upload: ", error);
+                alert("Ops! Ocorreu um erro ao importar. Verifique as regras do Firebase.");
+            } finally {
+                loading.style.display = 'none';
+                fileInput.value = ''; // Limpar input
+            }
+        });
+
+        // Função para Carregar o Feed
+        async function carregarFeed() {
+            loading.style.display = 'block';
+            feed.innerHTML = '';
+            
+            try {
+                const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+                const querySnapshot = await getDocs(q);
+
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const postId = doc.id;
+                    
+                    const card = document.createElement('div');
+                    card.className = 'post-card';
+                    card.id = `post-${postId}`;
+
+                    // Mídia (Imagem ou Vídeo)
+                    let mediaHTML = '';
+                    if (data.type === 'video') {
+                        mediaHTML = `<video src="${data.url}" class="post-media" controls playsinline></video>`;
+                    } else {
+                        mediaHTML = `<img src="${data.url}" class="post-media" alt="Mídia Rhavila" loading="lazy">`;
+                    }
+
+                    card.innerHTML = `
+                        ${mediaHTML}
+                        <div class="post-actions">
+                            <button class="btn-action" onclick="curtirPost('${postId}', this)">
+                                <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                                <span class="like-count">${data.likes || 0}</span>
+                            </button>
+                            <button class="btn-action" onclick="compartilhar('${data.url}', '${data.type}')">
+                                <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+                                Compartilhar
+                            </button>
+                        </div>
+                        <div class="post-info">
+                            Publicado no Álbum Rhavila 💖
+                        </div>
+                    `;
+                    feed.appendChild(card);
+                });
+            } catch (error) {
+                console.error("Erro ao carregar feed: ", error);
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        // Função Curtir (Global para o onclick funcionar)
+        window.curtirPost = async (postId, btnElement) => {
+            const postRef = doc(db, "posts", postId);
+            try {
+                // Atualiza no banco
+                await updateDoc(postRef, {
+                    likes: increment(1)
+                });
+                
+                // Atualiza na tela
+                const countSpan = btnElement.querySelector('.like-count');
+                countSpan.textContent = parseInt(countSpan.textContent) + 1;
+                btnElement.classList.add('liked');
+                btnElement.disabled = true; // Evita curtir várias vezes seguidas
+            } catch (error) {
+                console.error("Erro ao curtir: ", error);
+            }
+        };
+
+        // Função Compartilhar (Usa a API nativa do celular)
+        window.compartilhar = async (url, type) => {
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'Álbum Rhavila',
+                        text: 'Olha que legal essa mídia do álbum Rhavila!',
+                        url: url
+                    });
+                } catch (error) {
+                    console.log('Compartilhamento cancelado ou falhou', error);
+                }
+            } else {
+                // Fallback para navegadores antigos
+                navigator.clipboard.writeText(url);
+                alert("Link copiado para a área de transferência! 📋");
+            }
+        };
+
+        // Carregar feed ao abrir
+        carregarFeed();
+    </script>
+</body>
+</html>
