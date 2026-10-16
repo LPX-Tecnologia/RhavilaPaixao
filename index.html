@@ -13,8 +13,6 @@
             --rosa-bebe: #FFB6C1;
             --contorno: #4A0024; /* Marrom escuro/vinho da logo */
             --branco: #FFFFFF;
-            --azul-superpoderosa: #00BFFF;
-            --verde-superpoderosa: #32CD32;
         }
 
         * {
@@ -43,17 +41,18 @@
             top: 0;
             z-index: 100;
             box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .logo-text {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--rosa-escuro);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            -webkit-text-stroke: 2px var(--contorno);
-            text-shadow: 3px 3px 0 var(--contorno);
-            margin: 0;
+        /* ESTILO DA SUA LOGO */
+        .logo-img {
+            max-height: 120px; /* Ajuste o tamanho da logo aqui */
+            width: auto;
+            object-fit: contain;
+            /* Efeito de sombra para destacar a logo */
+            filter: drop-shadow(0px 4px 0px rgba(74, 0, 36, 0.5));
         }
 
         /* Área de Upload */
@@ -68,6 +67,7 @@
             box-shadow: 0 8px 0 var(--contorno);
             position: relative;
             overflow: hidden;
+            z-index: 10;
         }
 
         .upload-container::before {
@@ -139,6 +139,7 @@
             object-fit: cover;
             border-bottom: 4px solid var(--contorno);
             display: block;
+            background-color: #f0f0f0;
         }
 
         .post-actions {
@@ -207,15 +208,17 @@
 <body>
 
     <header>
-        <h1 class="logo-text">RHAVILA</h1>
+        <!-- AQUI ESTÁ A SUA LOGO. Certifique-se de que o arquivo se chama logo.png e está na mesma pasta -->
+        <img src="logo.png" alt="Logo Rhavila" class="logo-img">
     </header>
 
     <div class="upload-container">
-        <input type="file" id="fileInput" accept="image/*, video/*">
+        <!-- Adicionado o atributo 'multiple' para selecionar vários arquivos -->
+        <input type="file" id="fileInput" accept="image/*, video/*" multiple>
         <button class="btn-upload" onclick="document.getElementById('fileInput').click()">
-            📸 Importar Mídia
+            📸 Importar Mídias
         </button>
-        <p style="margin-top: 10px; font-weight: 600; color: var(--contorno);">Adicione fotos e vídeos ao seu álbum</p>
+        <p style="margin-top: 10px; font-weight: 600; color: var(--contorno);">Selecione várias fotos e vídeos de uma vez</p>
     </div>
 
     <div id="loading">Carregando mágica... ✨</div>
@@ -250,43 +253,60 @@
         const feed = document.getElementById('feed');
         const loading = document.getElementById('loading');
 
-        // Função para Upload
+        // Função para Upload Múltiplo
         fileInput.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
+            const files = e.target.files; // Pega TODOS os arquivos selecionados
+            if (!files || files.length === 0) return;
 
             loading.style.display = 'block';
+            let sucessos = 0;
+
+            // Loop para enviar cada arquivo
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                
+                // Atualiza o texto de carregamento para mostrar o progresso
+                loading.textContent = `Enviando ${i + 1} de ${files.length}... ⏳`;
+                
+                try {
+                    // 1. Upload para o Storage
+                    const storageRef = ref(storage, `rhavila_midias/${Date.now()}_${file.name}`);
+                    const snapshot = await uploadBytes(storageRef, file);
+                    const downloadURL = await getDownloadURL(snapshot.ref);
+
+                    // 2. Salvar no Firestore
+                    const mediaType = file.type.startsWith('video') ? 'video' : 'image';
+                    await addDoc(collection(db, "posts"), {
+                        url: downloadURL,
+                        type: mediaType,
+                        likes: 0,
+                        createdAt: serverTimestamp()
+                    });
+                    
+                    sucessos++; 
+                    
+                } catch (error) {
+                    console.error(`Erro no upload do arquivo ${file.name}: `, error);
+                }
+            }
+
+            // Finaliza o processo
+            loading.style.display = 'none';
+            loading.textContent = 'Carregando mágica... ✨'; 
+            fileInput.value = ''; // Limpa o input
             
-            try {
-                // 1. Upload para o Storage
-                const storageRef = ref(storage, `rhavila_midias/${Date.now()}_${file.name}`);
-                const snapshot = await uploadBytes(storageRef, file);
-                const downloadURL = await getDownloadURL(snapshot.ref);
-
-                // 2. Salvar no Firestore
-                const mediaType = file.type.startsWith('video') ? 'video' : 'image';
-                await addDoc(collection(db, "posts"), {
-                    url: downloadURL,
-                    type: mediaType,
-                    likes: 0,
-                    createdAt: serverTimestamp()
-                });
-
-                // 3. Recarregar o feed
-                carregarFeed();
-                alert("Mídia publicada com sucesso! 🎉");
-            } catch (error) {
-                console.error("Erro no upload: ", error);
-                alert("Ops! Ocorreu um erro ao importar. Verifique as regras do Firebase.");
-            } finally {
-                loading.style.display = 'none';
-                fileInput.value = ''; // Limpar input
+            if (sucessos > 0) {
+                alert(`${sucessos} mídia(s) publicada(s) com sucesso! 🎉`);
+                carregarFeed(); 
+            } else {
+                alert("Ops! Ocorreu um erro ao importar as mídias. Verifique as regras do Firebase.");
             }
         });
 
         // Função para Carregar o Feed
         async function carregarFeed() {
             loading.style.display = 'block';
+            loading.textContent = 'Carregando mágica... ✨';
             feed.innerHTML = '';
             
             try {
@@ -334,26 +354,22 @@
             }
         }
 
-        // Função Curtir (Global para o onclick funcionar)
+        // Função Curtir
         window.curtirPost = async (postId, btnElement) => {
             const postRef = doc(db, "posts", postId);
             try {
-                // Atualiza no banco
-                await updateDoc(postRef, {
-                    likes: increment(1)
-                });
+                await updateDoc(postRef, { likes: increment(1) });
                 
-                // Atualiza na tela
                 const countSpan = btnElement.querySelector('.like-count');
                 countSpan.textContent = parseInt(countSpan.textContent) + 1;
                 btnElement.classList.add('liked');
-                btnElement.disabled = true; // Evita curtir várias vezes seguidas
+                btnElement.disabled = true; 
             } catch (error) {
                 console.error("Erro ao curtir: ", error);
             }
         };
 
-        // Função Compartilhar (Usa a API nativa do celular)
+        // Função Compartilhar
         window.compartilhar = async (url, type) => {
             if (navigator.share) {
                 try {
@@ -363,10 +379,9 @@
                         url: url
                     });
                 } catch (error) {
-                    console.log('Compartilhamento cancelado ou falhou', error);
+                    console.log('Compartilhamento cancelado', error);
                 }
             } else {
-                // Fallback para navegadores antigos
                 navigator.clipboard.writeText(url);
                 alert("Link copiado para a área de transferência! 📋");
             }
