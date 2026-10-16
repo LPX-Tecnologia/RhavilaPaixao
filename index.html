@@ -6,260 +6,263 @@
     <title>Rhavila - Álbum de Amor</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* --- TODO O CSS PERMANECE O MESMO --- */
         :root {
-            --rosa-claro: #FFD1E3;
-            --rosa-escuro: #FF69B4;
-            --rosa-bebe: #FFB6C1;
-            --contorno: #4A0024; 
-            --branco: #FFFFFF;
-            --dourado: #FFD700;
+            --rosa-claro: #FFD1E3; --rosa-escuro: #FF69B4; --rosa-bebe: #FFB6C1;
+            --contorno: #4A0024; --branco: #FFFFFF; --dourado: #FFD700;
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Fredoka', sans-serif;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Fredoka', sans-serif; }
         body {
             background-color: var(--rosa-claro);
             background-image: radial-gradient(var(--rosa-escuro) 15%, transparent 16%);
-            background-size: 30px 30px;
-            color: var(--contorno);
-            padding-bottom: 80px;
+            background-size: 30px 30px; color: var(--contorno); padding-bottom: 80px;
         }
+        header { background: var(--branco); border-bottom: 5px solid var(--contorno); padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 0 rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; min-height: 100px; padding: 0 20px; }
+        .header-logo { display: flex; align-items: center; gap: 10px; }
+        .logo-img { max-height: 70px; width: auto; object-fit: contain; filter: drop-shadow(0px 4px 0px rgba(74, 0, 36, 0.5)); }
+        .logo-fallback { font-size: 1.8rem; font-weight: 700; color: var(--rosa-escuro); text-transform: uppercase; letter-spacing: 2px; -webkit-text-stroke: 1.5px var(--contorno); text-shadow: 2px 2px 0 var(--contorno); display: none; }
+        .header-user { display: flex; align-items: center; gap: 10px; }
+        .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 3px solid var(--contorno); object-fit: cover; background: var(--rosa-bebe); }
+        .btn-logout { background: transparent; border: 3px solid var(--contorno); border-radius: 50px; padding: 5px 15px; font-weight: 700; color: var(--contorno); cursor: pointer; box-shadow: 0 3px 0 var(--contorno); transition: all 0.1s; font-size: 0.8rem; }
+        .btn-logout:active { transform: translateY(3px); box-shadow: 0 0 0 var(--contorno); }
 
-        /* Cabeçalho */
-        header {
-            background: var(--branco);
-            border-bottom: 5px solid var(--contorno);
-            padding: 15px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 0 rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 140px;
-        }
+        /* --- Telas de Autenticação --- */
+        .auth-screen { display: none; max-width: 400px; margin: 40px auto; padding: 25px; background: var(--branco); border: 4px solid var(--contorno); border-radius: 25px; box-shadow: 0 8px 0 var(--contorno); text-align: center; }
+        .auth-screen.active { display: block; }
+        .auth-screen h2 { font-size: 1.8rem; color: var(--rosa-escuro); text-shadow: 2px 2px 0 var(--contorno); margin-bottom: 20px; }
+        .auth-input { width: 100%; padding: 12px 15px; margin-bottom: 15px; border: 3px solid var(--contorno); border-radius: 15px; font-size: 1rem; font-family: 'Fredoka', sans-serif; background: #fff5f8; color: var(--contorno); }
+        .auth-input:focus { outline: none; border-color: var(--rosa-escuro); }
+        .btn-auth { width: 100%; background: linear-gradient(135deg, var(--rosa-escuro), #FF1493); color: var(--branco); border: 4px solid var(--contorno); border-radius: 50px; padding: 12px; font-size: 1.1rem; font-weight: 700; cursor: pointer; box-shadow: 0 5px 0 var(--contorno); transition: all 0.1s; margin-bottom: 10px; }
+        .btn-auth:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--contorno); }
+        .auth-link { color: var(--rosa-escuro); cursor: pointer; font-weight: 700; text-decoration: underline; margin-top: 10px; display: block; }
+        .error-msg { color: #d32f2f; font-weight: 600; margin-top: 10px; font-size: 0.9rem; display: none; }
 
-        .logo-img {
-            max-height: 120px;
-            width: auto;
-            object-fit: contain;
-            filter: drop-shadow(0px 4px 0px rgba(74, 0, 36, 0.5));
-        }
+        /* --- Telas Principais --- */
+        .main-screen { display: none; }
+        .main-screen.active { display: block; }
 
-        /* Fallback da Logo caso a imagem não carregue */
-        .logo-fallback {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--rosa-escuro);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            -webkit-text-stroke: 2px var(--contorno);
-            text-shadow: 3px 3px 0 var(--contorno);
-            display: none;
-        }
+        /* --- Seção de Lembranças --- */
+        .memoria-section { max-width: 500px; margin: 20px auto; padding: 0 15px; text-align: center; }
+        .memoria-titulo { font-size: 1.5rem; font-weight: 700; color: var(--rosa-escuro); text-shadow: 2px 2px 0 var(--contorno); margin-bottom: 15px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .memoria-card { background: var(--branco); border: 5px solid var(--dourado); border-radius: 25px; overflow: hidden; box-shadow: 0 0 20px var(--dourado), 0 8px 0 var(--contorno); animation: brilho 2s infinite alternate; }
+        @keyframes brilho { from { box-shadow: 0 0 10px var(--dourado), 0 8px 0 var(--contorno); } to { box-shadow: 0 0 30px var(--dourado), 0 8px 0 var(--contorno); } }
 
-        /* Botão de Notificação */
-        .notif-btn {
-            background: var(--dourado);
-            border: 3px solid var(--contorno);
-            border-radius: 50px;
-            padding: 8px 20px;
-            font-weight: 700;
-            color: var(--contorno);
-            cursor: pointer;
-            box-shadow: 0 4px 0 var(--contorno);
-            margin: 15px auto;
-            display: block;
-            transition: all 0.1s;
-        }
-        .notif-btn:active { transform: translateY(4px); box-shadow: 0 0 0 var(--contorno); }
-
-        /* Seção de Lembranças */
-        .memoria-section {
-            max-width: 500px;
-            margin: 20px auto;
-            padding: 0 15px;
-            text-align: center;
-        }
-
-        .memoria-titulo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--rosa-escuro);
-            text-shadow: 2px 2px 0 var(--contorno);
-            margin-bottom: 15px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .memoria-card {
-            background: var(--branco);
-            border: 5px solid var(--dourado);
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 0 20px var(--dourado), 0 8px 0 var(--contorno);
-            animation: brilho 2s infinite alternate;
-        }
-
-        @keyframes brilho {
-            from { box-shadow: 0 0 10px var(--dourado), 0 8px 0 var(--contorno); }
-            to { box-shadow: 0 0 30px var(--dourado), 0 8px 0 var(--contorno); }
-        }
-
-        /* Upload */
-        .upload-container {
-            background: var(--branco);
-            border: 4px solid var(--contorno);
-            border-radius: 25px;
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 500px;
-            text-align: center;
-            box-shadow: 0 8px 0 var(--contorno);
-            position: relative;
-            overflow: hidden;
-            z-index: 10;
-        }
-
+        /* --- Upload e Feed --- */
+        .upload-container { background: var(--branco); border: 4px solid var(--contorno); border-radius: 25px; padding: 20px; margin: 20px auto; max-width: 500px; text-align: center; box-shadow: 0 8px 0 var(--contorno); position: relative; overflow: hidden; z-index: 10; }
         .upload-container input[type="file"] { display: none; }
-
-        .btn-upload {
-            background: linear-gradient(135deg, var(--rosa-escuro), #FF1493);
-            color: var(--branco);
-            border: 4px solid var(--contorno);
-            border-radius: 50px;
-            padding: 12px 30px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 5px 0 var(--contorno);
-            transition: all 0.1s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .btn-upload { background: linear-gradient(135deg, var(--rosa-escuro), #FF1493); color: var(--branco); border: 4px solid var(--contorno); border-radius: 50px; padding: 12px 30px; font-size: 1.2rem; font-weight: 700; cursor: pointer; box-shadow: 0 5px 0 var(--contorno); transition: all 0.1s; display: inline-flex; align-items: center; gap: 10px; }
         .btn-upload:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--contorno); }
-
-        /* Feed */
-        .feed {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 0 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .post-card {
-            background: var(--branco);
-            border: 4px solid var(--contorno);
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 8px 0 var(--contorno);
-            animation: popIn 0.3s ease-out;
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .post-media {
-            width: 100%;
-            max-height: 500px;
-            object-fit: cover;
-            border-bottom: 4px solid var(--contorno);
-            display: block;
-            background-color: #f0f0f0;
-        }
-
-        .post-actions {
-            display: flex;
-            justify-content: space-around;
-            padding: 15px;
-            background: var(--rosa-bebe);
-            border-bottom: 4px solid var(--contorno);
-        }
-
-        .btn-action {
-            background: var(--branco);
-            border: 3px solid var(--contorno);
-            border-radius: 50px;
-            padding: 8px 20px;
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--contorno);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.2s;
-            box-shadow: 0 3px 0 var(--contorno);
-        }
+        .feed { max-width: 500px; margin: 0 auto; padding: 0 15px; display: flex; flex-direction: column; gap: 25px; }
+        .post-card { background: var(--branco); border: 4px solid var(--contorno); border-radius: 25px; overflow: hidden; box-shadow: 0 8px 0 var(--contorno); animation: popIn 0.3s ease-out; }
+        @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .post-media { width: 100%; max-height: 500px; object-fit: cover; border-bottom: 4px solid var(--contorno); display: block; background-color: #f0f0f0; }
+        .post-actions { display: flex; justify-content: space-around; padding: 15px; background: var(--rosa-bebe); border-bottom: 4px solid var(--contorno); }
+        .btn-action { background: var(--branco); border: 3px solid var(--contorno); border-radius: 50px; padding: 8px 15px; font-size: 0.9rem; font-weight: 700; color: var(--contorno); cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.2s; box-shadow: 0 3px 0 var(--contorno); }
         .btn-action:active { transform: translateY(3px); box-shadow: 0 0 0 var(--contorno); }
         .btn-action.liked { background: var(--rosa-escuro); color: var(--branco); }
-        .btn-action svg { width: 20px; height: 20px; fill: currentColor; }
+        .btn-action svg { width: 18px; height: 18px; fill: currentColor; }
+        .post-info { padding: 15px; font-weight: 600; font-size: 1rem; text-align: center; position: relative; }
+        .post-caption { display: block; font-weight: 400; font-size: 0.9rem; margin-top: 5px; color: #555; }
+        .post-edit-options { position: absolute; top: 10px; right: 10px; display: flex; gap: 5px; }
+        .btn-edit, .btn-delete { background: var(--branco); border: 2px solid var(--contorno); border-radius: 50%; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; box-shadow: 0 2px 0 var(--contorno); }
+        .btn-edit:active, .btn-delete:active { transform: translateY(2px); box-shadow: 0 0 0 var(--contorno); }
 
-        .post-info { padding: 15px; font-weight: 600; font-size: 1.1rem; text-align: center; }
+        #loading { text-align: center; font-size: 1.5rem; font-weight: 700; color: var(--rosa-escuro); display: none; margin-top: 20px; text-shadow: 2px 2px 0 var(--contorno); }
 
-        #loading {
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--rosa-escuro);
-            display: none;
-            margin-top: 20px;
-            text-shadow: 2px 2px 0 var(--contorno);
-        }
+        /* --- Configurações --- */
+        .settings-section { max-width: 500px; margin: 20px auto; padding: 20px; background: var(--branco); border: 4px solid var(--contorno); border-radius: 25px; box-shadow: 0 8px 0 var(--contorno); }
+        .settings-section h3 { color: var(--rosa-escuro); text-shadow: 1px 1px 0 var(--contorno); margin-bottom: 15px; text-align: center; }
+        .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 2px dashed var(--rosa-bebe); }
+        .setting-item:last-child { border-bottom: none; }
+        .setting-item label { font-weight: 600; }
+        .toggle-switch { position: relative; width: 50px; height: 26px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; border: 2px solid var(--contorno); }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 1px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--rosa-escuro); }
+        input:checked + .slider:before { transform: translateX(24px); }
+        .btn-settings-save { width: 100%; background: var(--rosa-escuro); color: var(--branco); border: 3px solid var(--contorno); border-radius: 50px; padding: 10px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 0 var(--contorno); margin-top: 15px; transition: all 0.1s; }
+        .btn-settings-save:active { transform: translateY(4px); box-shadow: 0 0 0 var(--contorno); }
+
+        /* --- Modal de Notificações --- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 200; justify-content: center; align-items: center; }
+        .modal-overlay.active { display: flex; }
+        .modal-content { background: var(--branco); border: 4px solid var(--contorno); border-radius: 25px; max-width: 400px; width: 90%; max-height: 80vh; overflow-y: auto; padding: 20px; box-shadow: 0 10px 0 var(--contorno); }
+        .modal-content h3 { text-align: center; margin-bottom: 15px; color: var(--rosa-escuro); }
+        .notif-item { padding: 12px; border-bottom: 2px solid var(--rosa-bebe); display: flex; gap: 10px; align-items: center; }
+        .notif-icon { font-size: 1.5rem; }
+        .notif-text { flex: 1; font-weight: 600; font-size: 0.9rem; }
+        .notif-time { font-size: 0.75rem; color: #888; }
+        .btn-close-modal { width: 100%; background: var(--rosa-escuro); color: white; border: 3px solid var(--contorno); border-radius: 50px; padding: 10px; font-weight: 700; cursor: pointer; margin-top: 15px; }
+
+        /* --- Navegação Inferior --- */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--branco); border-top: 5px solid var(--contorno); display: flex; justify-content: space-around; padding: 10px 0; z-index: 150; box-shadow: 0 -4px 0 rgba(0,0,0,0.1); }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; background: none; border: none; font-family: 'Fredoka', sans-serif; font-weight: 600; color: var(--contorno); opacity: 0.6; transition: opacity 0.2s; position: relative; }
+        .nav-item.active { opacity: 1; color: var(--rosa-escuro); }
+        .nav-item svg { width: 24px; height: 24px; fill: currentColor; }
+        .nav-badge { position: absolute; top: -5px; right: -10px; background: #FF0000; color: white; font-size: 0.6rem; padding: 2px 5px; border-radius: 50%; border: 2px solid var(--branco); display: none; }
+        .nav-badge.show { display: block; }
     </style>
 </head>
 <body>
 
-    <header>
-        <!-- Tenta carregar a logo. Se falhar, mostra o texto -->
-        <img src="logo.png" alt="Logo Rhavila" class="logo-img" onerror="this.style.display='none'; document.getElementById('text-logo').style.display='block';">
-        <div id="text-logo" class="logo-fallback">RHAVILA</div>
-    </header>
+    <!-- ================= TELAS DE AUTENTICAÇÃO ================= -->
+    <div id="authContainer" class="main-screen active">
+        <!-- LOGIN -->
+        <div id="loginScreen" class="auth-screen active">
+            <img src="rhavila.png" alt="Logo" class="logo-img" style="max-height: 100px; margin-bottom: 15px;" onerror="this.style.display='none'; document.getElementById('auth-logo-fallback').style.display='block';">
+            <div id="auth-logo-fallback" class="logo-fallback" style="margin-bottom: 15px;">RHAVILA</div>
+            <h2>Bem-vindo de volta!</h2>
+            <input type="email" id="loginEmail" class="auth-input" placeholder="Seu e-mail" autocomplete="email">
+            <input type="password" id="loginPassword" class="auth-input" placeholder="Sua senha" autocomplete="current-password">
+            <div id="loginError" class="error-msg"></div>
+            <button class="btn-auth" onclick="fazerLogin()">Entrar</button>
+            <a class="auth-link" onclick="mostrarTela('signupScreen')">Não tem conta? Criar agora</a>
+            <a class="auth-link" onclick="mostrarTela('resetScreen')">Esqueceu a senha?</a>
+        </div>
 
-    <button class="notif-btn" id="btnNotif" onclick="ativarNotificacoes()">🔔 Ativar Lembretes de Amor</button>
+        <!-- CRIAR CONTA -->
+        <div id="signupScreen" class="auth-screen">
+            <h2>Criar Conta</h2>
+            <input type="text" id="signupName" class="auth-input" placeholder="Seu nome">
+            <input type="email" id="signupEmail" class="auth-input" placeholder="Seu e-mail" autocomplete="email">
+            <input type="password" id="signupPassword" class="auth-input" placeholder="Crie uma senha (mín. 6 caracteres)" autocomplete="new-password">
+            <div id="signupError" class="error-msg"></div>
+            <button class="btn-auth" onclick="criarConta()">Criar Conta</button>
+            <a class="auth-link" onclick="mostrarTela('loginScreen')">Já tem conta? Fazer login</a>
+        </div>
 
-    <!-- Seção de Lembranças do Dia -->
-    <div class="memoria-section" id="memoriaSection" style="display: none;">
-        <div class="memoria-titulo">✨ Lembrança do Dia ✨</div>
-        <div class="memoria-card" id="memoriaCard">
-            <!-- A mídia da lembrança aparece aqui -->
+        <!-- RECUPERAR SENHA -->
+        <div id="resetScreen" class="auth-screen">
+            <h2>Recuperar Senha</h2>
+            <p style="margin-bottom: 15px; font-size: 0.9rem;">Enviaremos um link de redefinição para seu e-mail.</p>
+            <input type="email" id="resetEmail" class="auth-input" placeholder="Seu e-mail">
+            <div id="resetMessage" class="error-msg" style="color: green;"></div>
+            <button class="btn-auth" onclick="recuperarSenha()">Enviar Link</button>
+            <a class="auth-link" onclick="mostrarTela('loginScreen')">Voltar ao login</a>
         </div>
     </div>
 
-    <div class="upload-container">
-        <input type="file" id="fileInput" accept="image/*, video/*" multiple>
-        <button class="btn-upload" onclick="document.getElementById('fileInput').click()">
-            📸 Importar Mídias
-        </button>
-        <p style="margin-top: 10px; font-weight: 600; color: var(--contorno);">Selecione várias fotos e vídeos</p>
+    <!-- ================= APP PRINCIPAL ================= -->
+    <div id="appContainer" class="main-screen">
+        <header>
+            <div class="header-logo">
+                <img src="rhavila.png" alt="Logo" class="logo-img" onerror="this.style.display='none'; document.getElementById('app-logo-fallback').style.display='block';">
+                <div id="app-logo-fallback" class="logo-fallback">RHAVILA</div>
+            </div>
+            <div class="header-user">
+                <img id="headerAvatar" class="user-avatar" src="https://via.placeholder.com/45/FFB6C1/4A0024?text=👤" alt="Avatar">
+                <button class="btn-logout" onclick="fazerLogout()">Sair</button>
+            </div>
+        </header>
+
+        <!-- ABA: FEED -->
+        <div id="aba-feed" class="aba-conteudo" style="display: block;">
+            <button class="notif-btn" id="btnNotif" onclick="ativarNotificacoes()" style="display: block; margin: 15px auto; background: var(--dourado); border: 3px solid var(--contorno); border-radius: 50px; padding: 8px 20px; font-weight: 700; cursor: pointer;">🔔 Ativar Lembretes</button>
+            
+            <div class="memoria-section" id="memoriaSection" style="display: none;">
+                <div class="memoria-titulo">✨ Lembrança do Dia ✨</div>
+                <div class="memoria-card" id="memoriaCard"></div>
+            </div>
+
+            <div class="upload-container">
+                <input type="file" id="fileInput" accept="image/*, video/*" multiple>
+                <button class="btn-upload" onclick="document.getElementById('fileInput').click()">📸 Importar Mídias</button>
+                <p style="margin-top: 10px; font-weight: 600;">Selecione várias fotos e vídeos</p>
+            </div>
+
+            <div id="loading">Carregando mágica... ✨</div>
+            <div class="feed" id="feed"></div>
+        </div>
+
+        <!-- ABA: PERFIL -->
+        <div id="aba-perfil" class="aba-conteudo" style="display: none;">
+            <div class="settings-section" style="text-align: center;">
+                <img id="profileAvatar" class="user-avatar" style="width: 100px; height: 100px; margin: 0 auto 15px;" src="https://via.placeholder.com/100/FFB6C1/4A0024?text=👤" alt="Avatar">
+                <h3 id="profileName">Nome do Usuário</h3>
+                <p id="profileEmail" style="font-size: 0.9rem; color: #666;">email@exemplo.com</p>
+                <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                <button class="btn-settings-save" onclick="document.getElementById('avatarInput').click()" style="margin-top: 10px;">Alterar Foto de Perfil</button>
+            </div>
+            <div class="settings-section">
+                <h3>Alterar Senha</h3>
+                <input type="password" id="newPassword" class="auth-input" placeholder="Nova senha">
+                <button class="btn-auth" onclick="alterarSenha()">Atualizar Senha</button>
+            </div>
+        </div>
+
+        <!-- ABA: NOTIFICAÇÕES -->
+        <div id="aba-notificacoes" class="aba-conteudo" style="display: none;">
+            <div class="settings-section">
+                <h3>Suas Notificações</h3>
+                <div id="listaNotificacoes"></div>
+            </div>
+        </div>
+
+        <!-- ABA: CONFIGURAÇÕES -->
+        <div id="aba-config" class="aba-conteudo" style="display: none;">
+            <div class="settings-section">
+                <h3>Configurações</h3>
+                <div class="setting-item">
+                    <label>Notificações de Curtidas</label>
+                    <label class="toggle-switch"><input type="checkbox" id="configLikes" checked><span class="slider"></span></label>
+                </div>
+                <div class="setting-item">
+                    <label>Notificações de Comentários</label>
+                    <label class="toggle-switch"><input type="checkbox" id="configComments" checked><span class="slider"></span></label>
+                </div>
+                <div class="setting-item">
+                    <label>Lembretes de Amor (Push)</label>
+                    <label class="toggle-switch"><input type="checkbox" id="configPush" checked><span class="slider"></span></label>
+                </div>
+                <div class="setting-item">
+                    <label>Mostrar Lembrança do Dia</label>
+                    <label class="toggle-switch"><input type="checkbox" id="configMemoria" checked><span class="slider"></span></label>
+                </div>
+                <button class="btn-settings-save" onclick="salvarConfiguracoes()">Salvar Preferências</button>
+            </div>
+        </div>
+
+        <!-- NAVEGAÇÃO INFERIOR -->
+        <div class="bottom-nav">
+            <button class="nav-item active" data-aba="feed" onclick="mudarAba('feed')">
+                <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                <span>Feed</span>
+            </button>
+            <button class="nav-item" data-aba="perfil" onclick="mudarAba('perfil')">
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                <span>Perfil</span>
+            </button>
+            <button class="nav-item" data-aba="notificacoes" onclick="mudarAba('notificacoes')">
+                <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+                <span>Notificações</span>
+                <span class="nav-badge" id="badgeNotif">0</span>
+            </button>
+            <button class="nav-item" data-aba="config" onclick="mudarAba('config')">
+                <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                <span>Config</span>
+            </button>
+        </div>
     </div>
 
-    <div id="loading">Carregando mágica... ✨</div>
+    <!-- MODAL DE NOTIFICAÇÕES (para uso futuro, se necessário) -->
+    <div id="modalNotificacoes" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Notificações</h3>
+            <div id="modalNotifList"></div>
+            <button class="btn-close-modal" onclick="fecharModal()">Fechar</button>
+        </div>
+    </div>
 
-    <div class="feed" id="feed"></div>
-
+    <!-- MÓDULOS DO FIREBASE (SDK v10) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, increment, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, updatePassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, increment, query, where, orderBy, serverTimestamp, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
+        // --- CONFIGURAÇÃO DO FIREBASE ---
         const firebaseConfig = {
             apiKey: "AIzaSyBOA6CtLCnrr1__l_cY770I1akp2LfJXhI",
             authDomain: "rhavilapaixao.firebaseapp.com",
@@ -271,85 +274,342 @@
         };
 
         const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
         const db = getFirestore(app);
         const storage = getStorage(app);
 
-        const fileInput = document.getElementById('fileInput');
-        const feed = document.getElementById('feed');
-        const loading = document.getElementById('loading');
-        let todasAsMidias = []; // Guarda todas as mídias para o sistema de lembranças
+        // --- VARIÁVEIS GLOBAIS ---
+        let usuarioAtual = null;
+        let todasAsMidias = [];
+        let configuracoesUsuario = { likes: true, comments: true, push: true, memoria: true };
 
-        // Mensagens de Amor para Notificação
-        const mensagensAmor = [
-            "Bom dia! A Rhavila te manda um beijo! 💖",
-            "Lembra desse momento lindo? Que saudade! ✨",
-            "Você é a pessoa mais forte e incrível do mundo! A Rhavila te ama! 👶💕",
-            "Sorria! A Rhavila está pensando em você agora. 🌸",
-            "Um dia abençoado para a pessoa mais especial do mundo! 🌟",
-            "Cada momento com você é mágico. Olha essa lembrança! 📸",
-            "A Rhavila quer te ver sorrir hoje! Você é tudo para ela! 🥰"
-        ];
+        // --- FUNÇÕES DE AUTENTICAÇÃO ---
+        window.mostrarTela = (telaId) => {
+            document.querySelectorAll('.auth-screen').forEach(t => t.classList.remove('active'));
+            document.getElementById(telaId).classList.add('active');
+        };
 
-        // --- SISTEMA DE NOTIFICAÇÕES ---
-        window.ativarNotificacoes = () => {
-            if (!("Notification" in window)) {
-                alert("Este navegador não suporta notificações.");
+        window.criarConta = async () => {
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const errorDiv = document.getElementById('signupError');
+            errorDiv.style.display = 'none';
+
+            if (!name || !email || !password) { errorDiv.textContent = 'Preencha todos os campos.'; errorDiv.style.display = 'block'; return; }
+            if (password.length < 6) { errorDiv.textContent = 'A senha deve ter pelo menos 6 caracteres.'; errorDiv.style.display = 'block'; return; }
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                await updateProfile(user, { displayName: name });
+                
+                // Cria o documento do usuário no Firestore
+                await setDoc(doc(db, "users", user.uid), {
+                    name: name,
+                    email: email,
+                    avatarUrl: "",
+                    createdAt: serverTimestamp(),
+                    config: { likes: true, comments: true, push: true, memoria: true }
+                });
+                
+                // Limpa o formulário e volta ao login
+                document.getElementById('signupName').value = '';
+                document.getElementById('signupEmail').value = '';
+                document.getElementById('signupPassword').value = '';
+                alert('Conta criada com sucesso! Agora faça login.');
+                mostrarTela('loginScreen');
+            } catch (error) {
+                console.error("Erro ao criar conta:", error);
+                let msg = 'Erro ao criar conta. Tente novamente.';
+                if (error.code === 'auth/email-already-in-use') msg = 'Este e-mail já está em uso.';
+                if (error.code === 'auth/invalid-email') msg = 'E-mail inválido.';
+                errorDiv.textContent = msg;
+                errorDiv.style.display = 'block';
+            }
+        };
+
+        window.fazerLogin = async () => {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const errorDiv = document.getElementById('loginError');
+            errorDiv.style.display = 'none';
+
+            if (!email || !password) { errorDiv.textContent = 'Preencha todos os campos.'; errorDiv.style.display = 'block'; return; }
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                // O onAuthStateChanged vai redirecionar
+            } catch (error) {
+                console.error("Erro ao fazer login:", error);
+                let msg = 'E-mail ou senha incorretos.';
+                if (error.code === 'auth/user-not-found') msg = 'Usuário não encontrado.';
+                if (error.code === 'auth/wrong-password') msg = 'Senha incorreta.';
+                if (error.code === 'auth/too-many-requests') msg = 'Muitas tentativas. Tente mais tarde.';
+                errorDiv.textContent = msg;
+                errorDiv.style.display = 'block';
+            }
+        };
+
+        window.fazerLogout = async () => {
+            try {
+                await signOut(auth);
+                todasAsMidias = [];
+                document.getElementById('feed').innerHTML = '';
+            } catch (error) { console.error("Erro ao sair:", error); }
+        };
+
+        window.recuperarSenha = async () => {
+            const email = document.getElementById('resetEmail').value.trim();
+            const msgDiv = document.getElementById('resetMessage');
+            if (!email) { msgDiv.textContent = 'Digite seu e-mail.'; msgDiv.style.display = 'block'; return; }
+            
+            try {
+                await sendPasswordResetEmail(auth, email);
+                msgDiv.textContent = 'Link enviado! Verifique sua caixa de entrada.';
+                msgDiv.style.display = 'block';
+            } catch (error) {
+                console.error("Erro ao enviar reset:", error);
+                msgDiv.textContent = 'Erro ao enviar. Verifique o e-mail digitado.';
+                msgDiv.style.display = 'block';
+            }
+        };
+
+        window.alterarSenha = async () => {
+            const newPass = document.getElementById('newPassword').value;
+            if (newPass.length < 6) { alert('A nova senha deve ter pelo menos 6 caracteres.'); return; }
+            try {
+                await updatePassword(usuarioAtual, newPass);
+                alert('Senha alterada com sucesso!');
+                document.getElementById('newPassword').value = '';
+            } catch (error) {
+                console.error("Erro ao alterar senha:", error);
+                if (error.code === 'auth/requires-recent-login') alert('Por segurança, faça login novamente antes de alterar a senha.');
+                else alert('Erro ao alterar senha. Tente novamente.');
+            }
+        };
+
+        // --- OBSERVADOR DE ESTADO DE AUTENTICAÇÃO ---
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                usuarioAtual = user;
+                document.getElementById('authContainer').classList.remove('active');
+                document.getElementById('appContainer').classList.add('active');
+                
+                // Carrega dados do usuário
+                await carregarPerfil(user);
+                // Carrega configurações salvas
+                await carregarConfiguracoes(user.uid);
+                // Carrega o feed
+                await carregarFeed();
+                // Inicia o sistema de lembranças
+                gerenciarLembranca();
+                // Verifica notificações não lidas
+                verificarNotificacoesNaoLidas(user.uid);
+            } else {
+                usuarioAtual = null;
+                document.getElementById('authContainer').classList.add('active');
+                document.getElementById('appContainer').classList.remove('active');
+                mostrarTela('loginScreen');
+            }
+        });
+
+        // --- PERFIL ---
+        async function carregarPerfil(user) {
+            document.getElementById('profileName').textContent = user.displayName || 'Usuário';
+            document.getElementById('profileEmail').textContent = user.email;
+            
+            const userDocRef = doc(db, "users", user.uid);
+            const userDoc = await getDoc(userDocRef);
+            if (userDoc.exists()) {
+                const data = userDoc.data();
+                if (data.avatarUrl) {
+                    document.getElementById('headerAvatar').src = data.avatarUrl;
+                    document.getElementById('profileAvatar').src = data.avatarUrl;
+                }
+            }
+        }
+
+        document.getElementById('avatarInput').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file || !usuarioAtual) return;
+            
+            const storageRef = ref(storage, `avatares/${usuarioAtual.uid}/avatar.jpg`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+            
+            uploadTask.on('state_changed', null, (error) => {
+                console.error("Erro no upload do avatar:", error);
+                alert("Erro ao enviar imagem.");
+            }, async () => {
+                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                await updateDoc(doc(db, "users", usuarioAtual.uid), { avatarUrl: downloadURL });
+                document.getElementById('headerAvatar').src = downloadURL;
+                document.getElementById('profileAvatar').src = downloadURL;
+                alert("Foto de perfil atualizada! 📸");
+            });
+        });
+
+        // --- CONFIGURAÇÕES ---
+        async function carregarConfiguracoes(uid) {
+            const docRef = doc(db, "users", uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists() && docSnap.data().config) {
+                configuracoesUsuario = docSnap.data().config;
+                document.getElementById('configLikes').checked = configuracoesUsuario.likes;
+                document.getElementById('configComments').checked = configuracoesUsuario.comments;
+                document.getElementById('configPush').checked = configuracoesUsuario.push;
+                document.getElementById('configMemoria').checked = configuracoesUsuario.memoria;
+            }
+        }
+
+        window.salvarConfiguracoes = async () => {
+            if (!usuarioAtual) return;
+            configuracoesUsuario = {
+                likes: document.getElementById('configLikes').checked,
+                comments: document.getElementById('configComments').checked,
+                push: document.getElementById('configPush').checked,
+                memoria: document.getElementById('configMemoria').checked
+            };
+            await updateDoc(doc(db, "users", usuarioAtual.uid), { config: configuracoesUsuario });
+            alert("Preferências salvas! ⚙️");
+            
+            // Aplica configuração de lembrança imediatamente
+            if (!configuracoesUsuario.memoria) {
+                document.getElementById('memoriaSection').style.display = 'none';
+            } else {
+                gerenciarLembranca();
+            }
+        };
+
+        // --- NAVEGAÇÃO ENTRE ABAS ---
+        window.mudarAba = (aba) => {
+            document.querySelectorAll('.aba-conteudo').forEach(el => el.style.display = 'none');
+            document.getElementById(`aba-${aba}`).style.display = 'block';
+            
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.querySelector(`.nav-item[data-aba="${aba}"]`).classList.add('active');
+            
+            if (aba === 'notificacoes') {
+                carregarNotificacoes();
+            }
+            if (aba === 'perfil') {
+                carregarPerfil(usuarioAtual);
+            }
+        };
+
+        // --- NOTIFICAÇÕES (Firestore) ---
+        async function verificarNotificacoesNaoLidas(uid) {
+            const q = query(collection(db, "users", uid, "notifications"), where("read", "==", false));
+            const snapshot = await getDocs(q);
+            const badge = document.getElementById('badgeNotif');
+            if (snapshot.size > 0) {
+                badge.textContent = snapshot.size;
+                badge.classList.add('show');
+            } else {
+                badge.classList.remove('show');
+            }
+        }
+
+        async function carregarNotificacoes() {
+            const lista = document.getElementById('listaNotificacoes');
+            lista.innerHTML = '<p style="text-align:center;">Carregando...</p>';
+            
+            const q = query(collection(db, "users", usuarioAtual.uid, "notifications"), orderBy("createdAt", "desc"));
+            const snapshot = await getDocs(q);
+            
+            lista.innerHTML = '';
+            if (snapshot.empty) {
+                lista.innerHTML = '<p style="text-align:center; color:#888;">Nenhuma notificação ainda.</p>';
                 return;
             }
+            
+            snapshot.forEach(docSnap => {
+                const notif = docSnap.data();
+                const div = document.createElement('div');
+                div.className = 'notif-item';
+                div.innerHTML = `
+                    <div class="notif-icon">${notif.icon || '❤️'}</div>
+                    <div class="notif-text">${notif.text}</div>
+                    <div class="notif-time">${formatarTempo(notif.createdAt)}</div>
+                `;
+                lista.appendChild(div);
+            });
+            
+            // Marca todas como lidas
+            snapshot.forEach(async (docSnap) => {
+                await updateDoc(doc(db, "users", usuarioAtual.uid, "notifications", docSnap.id), { read: true });
+            });
+            document.getElementById('badgeNotif').classList.remove('show');
+        }
+
+        function formatarTempo(timestamp) {
+            if (!timestamp) return 'Agora';
+            const data = timestamp.toDate();
+            const agora = new Date();
+            const diffMs = agora - data;
+            const diffMin = Math.floor(diffMs / 60000);
+            if (diffMin < 1) return 'Agora';
+            if (diffMin < 60) return `${diffMin} min`;
+            const diffHoras = Math.floor(diffMin / 60);
+            if (diffHoras < 24) return `${diffHoras}h`;
+            return `${Math.floor(diffHoras / 24)}d`;
+        }
+
+        // --- SISTEMA DE NOTIFICAÇÕES PUSH (LOCAL) ---
+        window.ativarNotificacoes = () => {
+            if (!("Notification" in window)) { alert("Este navegador não suporta notificações."); return; }
             Notification.requestPermission().then(permission => {
                 if (permission === "granted") {
                     alert("Lembretes de amor ativados! 💖");
                     document.getElementById('btnNotif').style.display = 'none';
-                    iniciarNotificacoes();
-                } else {
-                    alert("Você precisa permitir as notificações para receber os lembretes.");
-                }
+                    iniciarNotificacoesPush();
+                } else { alert("Permita as notificações para receber os lembretes."); }
             });
         };
 
-        function iniciarNotificacoes() {
-            // Envia uma notificação a cada 2 horas (enquanto o app estiver aberto)
+        function iniciarNotificacoesPush() {
+            const mensagens = [
+                "Bom dia! A Rhavila te manda um beijo! 💖",
+                "Lembra desse momento lindo? Que saudade! ✨",
+                "Você é a pessoa mais forte e incrível! A Rhavila te ama! 👶💕",
+                "Sorria! A Rhavila está pensando em você agora. 🌸",
+                "Um dia abençoado para você! 🌟",
+                "Cada momento com você é mágico! 📸"
+            ];
             setInterval(() => {
-                const msg = mensagensAmor[Math.floor(Math.random() * mensagensAmor.length)];
-                new Notification("Rhavila - Momento de Amor", {
-                    body: msg,
-                    icon: "logo.png"
-                });
-            }, 2 * 60 * 60 * 1000); // 2 horas em milissegundos
+                if (configuracoesUsuario.push && Notification.permission === "granted") {
+                    const msg = mensagens[Math.floor(Math.random() * mensagens.length)];
+                    new Notification("Rhavila - Momento de Amor", { body: msg, icon: "rhavila.png" });
+                }
+            }, 2 * 60 * 60 * 1000);
         }
 
         // --- SISTEMA DE LEMBRANÇAS (24 HORAS) ---
         function gerenciarLembranca() {
+            if (!configuracoesUsuario.memoria) { document.getElementById('memoriaSection').style.display = 'none'; return; }
             if (todasAsMidias.length === 0) return;
-
+            
             const agora = Date.now();
             const expiracao = localStorage.getItem('memoriaExpiracao');
             const idAtual = localStorage.getItem('memoriaId');
-
-            // Se não tem lembrança salva, ou se já passou de 24 horas
-            if (!idAtual || !expiracao || agora > parseInt(expiracao)) {
-                // Filtra para não pegar a mesma imagem que estava
-                const disponiveis = todasAsMidias.filter(m => m.id !== idAtual);
+            const uidAtual = usuarioAtual ? usuarioAtual.uid : '';
+            const chaveMemoria = `memoriaId_${uidAtual}`;
+            const chaveExpiracao = `memoriaExpiracao_${uidAtual}`;
+            
+            const expiracaoSalva = localStorage.getItem(chaveExpiracao);
+            const idSalvo = localStorage.getItem(chaveMemoria);
+            
+            if (!idSalvo || !expiracaoSalva || agora > parseInt(expiracaoSalva)) {
+                const disponiveis = todasAsMidias.filter(m => m.id !== idSalvo);
                 const listaParaEscolher = disponiveis.length > 0 ? disponiveis : todasAsMidias;
-                
-                // Escolhe uma aleatória
                 const escolhida = listaParaEscolher[Math.floor(Math.random() * listaParaEscolher.length)];
-                
-                // Salva no navegador por 24 horas
-                localStorage.setItem('memoriaId', escolhida.id);
-                localStorage.setItem('memoriaExpiracao', agora + (24 * 60 * 60 * 1000)); // 24h
-                
+                localStorage.setItem(chaveMemoria, escolhida.id);
+                localStorage.setItem(chaveExpiracao, agora + (24 * 60 * 60 * 1000));
                 renderizarMemoria(escolhida);
             } else {
-                // Ainda está dentro das 24h, mostra a que está salva
-                const memoriaSalva = todasAsMidias.find(m => m.id === idAtual);
+                const memoriaSalva = todasAsMidias.find(m => m.id === idSalvo);
                 if (memoriaSalva) renderizarMemoria(memoriaSalva);
-                else {
-                    // Se a imagem foi deletada do banco, força uma nova
-                    localStorage.removeItem('memoriaId');
-                    localStorage.removeItem('memoriaExpiracao');
-                    gerenciarLembranca();
-                }
+                else { localStorage.removeItem(chaveMemoria); localStorage.removeItem(chaveExpiracao); gerenciarLembranca(); }
             }
         }
 
@@ -357,64 +617,80 @@
             const section = document.getElementById('memoriaSection');
             const card = document.getElementById('memoriaCard');
             section.style.display = 'block';
-            
-            let mediaHTML = '';
-            if (midia.type === 'video') {
-                mediaHTML = `<video src="${midia.url}" class="post-media" controls playsinline autoplay muted loop></video>`;
-            } else {
-                mediaHTML = `<img src="${midia.url}" class="post-media" alt="Lembrança Rhavila">`;
-            }
+            let mediaHTML = midia.type === 'video' 
+                ? `<video src="${midia.url}" class="post-media" controls playsinline autoplay muted loop></video>`
+                : `<img src="${midia.url}" class="post-media" alt="Lembrança Rhavila">`;
             card.innerHTML = mediaHTML;
         }
 
         // --- UPLOAD MÚLTIPLO ---
-        fileInput.addEventListener('change', async (e) => {
+        document.getElementById('fileInput').addEventListener('change', async (e) => {
             const files = e.target.files;
-            if (!files || files.length === 0) return;
+            if (!files || files.length === 0 || !usuarioAtual) return;
 
+            const loading = document.getElementById('loading');
             loading.style.display = 'block';
             let sucessos = 0;
 
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
-                loading.textContent = `Enviando ${i + 1} de ${files.length}... ⏳`;
+                loading.textContent = `Preparando ${i + 1} de ${files.length}... ⏳`;
                 
                 try {
-                    const storageRef = ref(storage, `rhavila_midias/${Date.now()}_${file.name}`);
-                    const snapshot = await uploadBytes(storageRef, file);
-                    const downloadURL = await getDownloadURL(snapshot.ref);
-
-                    const mediaType = file.type.startsWith('video') ? 'video' : 'image';
-                    await addDoc(collection(db, "posts"), {
-                        url: downloadURL,
-                        type: mediaType,
-                        likes: 0,
-                        createdAt: serverTimestamp()
+                    const storageRef = ref(storage, `rhavila_midias/${usuarioAtual.uid}/${Date.now()}_${file.name}`);
+                    const uploadTask = uploadBytesResumable(storageRef, file);
+                    
+                    await new Promise((resolve, reject) => {
+                        uploadTask.on('state_changed', 
+                            (snapshot) => {
+                                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                                loading.textContent = `Enviando ${i + 1} de ${files.length} (${Math.round(progress)}%)... ⏳`;
+                            }, 
+                            (error) => { console.error("Erro no upload:", error); reject(error); }, 
+                            async () => {
+                                try {
+                                    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                                    const mediaType = file.type.startsWith('video') ? 'video' : 'image';
+                                    await addDoc(collection(db, "posts"), {
+                                        url: downloadURL,
+                                        type: mediaType,
+                                        caption: "",
+                                        likes: 0,
+                                        authorId: usuarioAtual.uid,
+                                        authorName: usuarioAtual.displayName || "Usuário",
+                                        createdAt: serverTimestamp()
+                                    });
+                                    sucessos++;
+                                    resolve();
+                                } catch (err) { reject(err); }
+                            }
+                        );
                     });
-                    sucessos++; 
                 } catch (error) {
-                    console.error(`Erro no upload: `, error);
+                    console.error(`Falha ao enviar ${file.name}: `, error);
                 }
             }
 
             loading.style.display = 'none';
             loading.textContent = 'Carregando mágica... ✨'; 
-            fileInput.value = ''; 
+            e.target.value = ''; 
             
             if (sucessos > 0) {
-                alert(`${sucessos} mídia(s) publicada(s) com sucesso! 🎉`);
+                alert(`${sucessos} mídia(s) publicada(s)! 🎉`);
                 carregarFeed(); 
             } else {
-                alert("Ops! Ocorreu um erro ao importar. Verifique as regras do Firebase.");
+                alert("Nenhuma mídia foi importada. Verifique sua conexão.");
             }
         });
 
         // --- CARREGAR FEED ---
         async function carregarFeed() {
+            const feed = document.getElementById('feed');
+            const loading = document.getElementById('loading');
             loading.style.display = 'block';
             loading.textContent = 'Carregando mágica... ✨';
             feed.innerHTML = '';
-            todasAsMidias = []; // Limpa a lista
+            todasAsMidias = [];
             
             try {
                 const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
@@ -423,26 +699,34 @@
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
                     const postId = doc.id;
-                    
-                    // Salva na lista global para o sistema de lembranças
                     todasAsMidias.push({ id: postId, ...data });
 
-                    // Renderiza no Feed normal
                     const card = document.createElement('div');
                     card.className = 'post-card';
                     card.id = `post-${postId}`;
 
-                    let mediaHTML = '';
-                    if (data.type === 'video') {
-                        mediaHTML = `<video src="${data.url}" class="post-media" controls playsinline></video>`;
-                    } else {
-                        mediaHTML = `<img src="${data.url}" class="post-media" alt="Mídia Rhavila" loading="lazy">`;
-                    }
+                    let mediaHTML = data.type === 'video' 
+                        ? `<video src="${data.url}" class="post-media" controls playsinline></video>`
+                        : `<img src="${data.url}" class="post-media" alt="Mídia Rhavila" loading="lazy">`;
+
+                    // Mostra opções de editar/excluir apenas se for o dono do post
+                    const isOwner = usuarioAtual && usuarioAtual.uid === data.authorId;
+                    const editOptions = isOwner ? `
+                        <div class="post-edit-options">
+                            <button class="btn-edit" onclick="editarLegenda('${postId}', '${(data.caption || '').replace(/'/g, "\\'")}')">✏️</button>
+                            <button class="btn-delete" onclick="apagarPost('${postId}', '${data.url}')">🗑️</button>
+                        </div>
+                    ` : '';
 
                     card.innerHTML = `
                         ${mediaHTML}
+                        <div class="post-info">
+                            <strong>${data.authorName || 'Anônimo'}</strong>
+                            <span class="post-caption">${data.caption || ''}</span>
+                            ${editOptions}
+                        </div>
                         <div class="post-actions">
-                            <button class="btn-action" onclick="curtirPost('${postId}', this)">
+                            <button class="btn-action" onclick="curtirPost('${postId}', this, '${data.authorId}')">
                                 <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                                 <span class="like-count">${data.likes || 0}</span>
                             </button>
@@ -451,14 +735,9 @@
                                 Compartilhar
                             </button>
                         </div>
-                        <div class="post-info">Publicado no Álbum Rhavila 💖</div>
                     `;
                     feed.appendChild(card);
                 });
-
-                // Depois de carregar tudo, gerencia a lembrança do dia
-                gerenciarLembranca();
-
             } catch (error) {
                 console.error("Erro ao carregar feed: ", error);
             } finally {
@@ -466,29 +745,74 @@
             }
         }
 
-        window.curtirPost = async (postId, btnElement) => {
+        // --- EDITAR LEGENDA ---
+        window.editarLegenda = async (postId, legendaAtual) => {
+            const nova = prompt("Digite a legenda:", legendaAtual);
+            if (nova !== null) {
+                try {
+                    await updateDoc(doc(db, "posts", postId), { caption: nova });
+                    alert("Legenda atualizada! ✏️");
+                    carregarFeed();
+                } catch (error) { console.error("Erro ao editar legenda:", error); alert("Erro ao atualizar."); }
+            }
+        };
+
+        // --- APAGAR POST ---
+        window.apagarPost = async (postId, urlMidia) => {
+            if (!confirm("Tem certeza que deseja apagar esta mídia? Não será possível recuperar.")) return;
+            try {
+                // 1. Apaga o documento do Firestore
+                await deleteDoc(doc(db, "posts", postId));
+                
+                // 2. Tenta apagar o arquivo do Storage
+                try {
+                    const arquivoRef = ref(storage, urlMidia);
+                    await deleteObject(arquivoRef);
+                } catch (err) { console.warn("Arquivo já removido ou inacessível:", err); }
+                
+                alert("Mídia apagada! 🗑️");
+                carregarFeed();
+            } catch (error) { console.error("Erro ao apagar post:", error); alert("Erro ao apagar."); }
+        };
+
+        // --- CURTIR POST + NOTIFICAÇÃO ---
+        window.curtirPost = async (postId, btnElement, autorId) => {
+            if (!usuarioAtual) return;
             const postRef = doc(db, "posts", postId);
             try {
                 await updateDoc(postRef, { likes: increment(1) });
                 const countSpan = btnElement.querySelector('.like-count');
                 countSpan.textContent = parseInt(countSpan.textContent) + 1;
                 btnElement.classList.add('liked');
-                btnElement.disabled = true; 
+                btnElement.disabled = true;
+
+                // Cria notificação para o autor (se não for o próprio usuário)
+                if (autorId && autorId !== usuarioAtual.uid && configuracoesUsuario.likes) {
+                    await addDoc(collection(db, "users", autorId, "notifications"), {
+                        text: `${usuarioAtual.displayName || 'Alguém'} curtiu sua mídia! ❤️`,
+                        icon: "❤️",
+                        read: false,
+                        createdAt: serverTimestamp()
+                    });
+                }
             } catch (error) { console.error("Erro ao curtir: ", error); }
         };
 
+        // --- COMPARTILHAR ---
         window.compartilhar = async (url, type) => {
             if (navigator.share) {
-                try {
-                    await navigator.share({ title: 'Álbum Rhavila', text: 'Olha que legal!', url: url });
+                try { 
+                    await navigator.share({ title: 'Álbum Rhavila', text: 'Olha que legal!', url: url }); 
+                    // Cria notificação de compartilhamento (opcional)
                 } catch (error) { console.log('Cancelado', error); }
-            } else {
-                navigator.clipboard.writeText(url);
-                alert("Link copiado! 📋");
+            } else { 
+                navigator.clipboard.writeText(url); 
+                alert("Link copiado! 📋"); 
             }
         };
 
-        carregarFeed();
+        // --- INICIALIZAÇÃO ---
+        // O onAuthStateChanged cuida de carregar tudo quando o usuário loga.
     </script>
 </body>
 </html>
